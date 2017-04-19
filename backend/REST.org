@@ -1,0 +1,63 @@
+
+* test
+  :PROPERTIES:
+  :header-args:python:   :results output   :python /Users/alex/.python_virtualenvs/default/bin/python
+  :END:
+
+  With `:pretty`:
+  
+  #+BEGIN_SRC http   :exports both   :pretty
+    GET http://httpbin.org/user-agent
+    User-Agent: ob-http
+  #+END_SRC
+
+  #+RESULTS:
+  : {
+  :   "user-agent": "ob-http"
+  : }
+
+  
+  Without `:pretty`:
+  
+  #+BEGIN_SRC http   :exports both
+    GET http://httpbin.org/user-agent
+    User-Agent: ob-http
+  #+END_SRC
+
+  #+RESULTS:
+  : HTTP/1.1 200 OK
+  : Server: nginx
+  : Date: Fri, 03 Feb 2017 16:24:35 GMT
+  : Content-Type: application/json
+  : Content-Length: 30
+  : Connection: keep-alive
+  : Access-Control-Allow-Origin: *
+  : Access-Control-Allow-Credentials: true
+  : 
+  : {
+  :   "user-agent": "ob-http"
+  : }
+
+  
+  #+BEGIN_SRC python   :exports both
+    print('hello')
+    print(1+1)
+  #+END_SRC
+
+  #+RESULTS:
+  : hello
+  : 2
+
+  
+  
+  #+BEGIN_SRC http   :pretty   :exports both
+    GET http://theproject_backend.dev.dnsdock:8080/rest
+    Accept: application/json
+  #+END_SRC
+
+  #+RESULTS:
+  : {
+  :   "rest": "Hello World!"
+  : }
+
+

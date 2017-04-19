@@ -34,3 +34,13 @@ services:
       - "9907:9907"
 
 
+  backend:
+    image: koddo/erlang
+    volumes:
+      - ./backend:/home/theuser/theproject
+    working_dir: /home/theuser/theproject
+    entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
+    ports:
+      - "8080:8080"
+
+  

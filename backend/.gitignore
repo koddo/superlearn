@@ -1,0 +1,11 @@
+deps
+ebin
+_rel
+relx
+*.o
+*.beam
+*.plt
+erl_crash.dump
+.erlang.mk
+logs
+*.d

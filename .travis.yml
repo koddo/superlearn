@@ -1,5 +1,15 @@
-language: clojure
+# language: clojure
 
-lein: lein2
+# lein: lein2
 
-script: lein2 doo phantom test once
+# script: lein2 doo phantom test once
+
+
+# language: erlang
+
+# otp_release:
+#   - 18.3
+#   - 19.2
+
+# script: make tests
+
