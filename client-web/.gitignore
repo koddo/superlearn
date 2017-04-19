@@ -1,0 +1,14 @@
+/*.log
+/target
+/*-init.clj
+/resources/public/js/compiled
+/resources/public/css/*
+!/resources/public/css/.gitkeep
+out
+
+/lein-deps/*
+!/lein-deps/.gitkeep
+
+/node_modules
+
+__pycache__/

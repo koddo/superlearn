@@ -1,0 +1,36 @@
+## project name is set in the .env file
+
+version: '2'
+
+
+services:
+
+  figwheel:
+    image: koddo/lein
+    volumes:
+      - ./client-web:/home/theuser/theproject
+      - ./client-web/lein-deps:/home/theuser/.m2/      # cache dependencies of lein figwheel to avoid downloading them on every run, this is gitignored
+    working_dir: /home/theuser/theproject
+    command: lein figwheel
+    ports:
+      - "3449:3449"
+
+  gulp:
+    image: koddo/gulp
+    volumes:
+      - ./client-web/less:/home/node/prj/src
+      - ./client-web/resources/public/css:/home/node/prj/dest
+
+  flask-static:
+    image: koddo/flask-static
+    volumes:
+      - ./client-web/resources/public:/home/theuser/static
+    ports:
+      - "3448:3448"
+
+  browser-console-logger:
+    image: koddo/browser-console-logger
+    ports:
+      - "9907:9907"
+
+
