@@ -33,14 +33,42 @@ services:
     ports:
       - "9907:9907"
 
+## -----------------
 
   backend:
     image: koddo/erlang
     volumes:
       - ./backend:/home/theuser/theproject
+      - ./client-web/resources/public:/home/theuser/theproject/priv
+      - ./database/certs_dev:/home/theuser/certs_dev
     working_dir: /home/theuser/theproject
     entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
     ports:
       - "8080:8080"
 
-  
+## -----------------
+
+  database:
+    image: koddo/postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - PGDATA=/var/lib/postgresql/data   # this is the default value
+    volumes:
+      - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - superlearn_pgdata:/var/lib/postgresql/data
+      # we can't share files here directly, because at the moment of writing docker doesn't allow to map uids in volumes, so we simply copy these files using a copy.sh script
+
+
+## -----------------
+
+
+volumes:
+  superlearn_pgdata:
+    external: true
+
+
+
+

@@ -5,35 +5,37 @@
 
 -export([init/2]).
 -export([content_types_provided/2]).
--export([hello_to_html/2]).
 -export([hello_to_json/2]).
--export([hello_to_text/2]).
 
 init(Req, Opts) ->
 	{cowboy_rest, Req, Opts}.
 
 content_types_provided(Req, State) ->
 	{[
-      {<<"text/html">>, hello_to_html},
-      {<<"application/json">>, hello_to_json},
-      {<<"text/plain">>, hello_to_text}
+      {<<"application/json">>, hello_to_json}
      ], Req, State}.
 
-hello_to_html(Req, State) ->
-	Body = <<"<html>
-<head>
-             <meta charset=\"utf-8\">
-	<title>REST Hello World!</title>
-             </head>
-             <body>
-             <p>REST Hello World as HTML!</p>
-             </body>
-             </html>">>,
-	{Body, Req, State}.
-
 hello_to_json(Req, State) ->
-	Body = <<"{\"rest\": \"Hello World!\"}">>,
-	{Body, Req, State}.
+    %% TODO: CRITICAL move to secrets
+    R = epgsql:connect("postgres.dev.dnsdock", 
+                       "administrator", 
+                       no_password, 
+                       [{database, "thedb"}, 
+                        {ssl, true}, 
+                        {cacertfile, "/home/theuser/certs_dev/cacert.pem"},
+                        {certfile,   "/home/theuser/certs_dev/pg-user-administrator.crt"},
+                        {keyfile,    "/home/theuser/certs_dev/pg-user-administrator.nopassword.key"},
+                        {verify, verify_peer},
+                        {fail_if_no_peer_cert, true}   % this is for server-side, not sure if this works for client-side, but won't hurt
+                       ]),
+    error_logger:info_msg("--- SQL connect: ~p~n", [R]),
+    {ok, C} = R,
+    {ok, _, Rows} = epgsql:equery(C, "select * from show_all(4);"),
+    ok = epgsql:close(C),
+    error_logger:info_msg("--- SQL Rows: ~p~n", [Rows]),
 
-hello_to_text(Req, State) ->
-	{<<"REST Hello World as text!">>, Req, State}.
+    {ok, Body} = list_json_dtl:render([]),
+	Req_body = cowboy_req:reply(200, #{<<"content-type">> => <<"text/html">>}, Body, Req),
+	{Body, Req_body, State}.
+
+
