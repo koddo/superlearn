@@ -10,6 +10,11 @@
   (defn home-panel []
     [:div (str "Hello from " @name ". This is the Home Page.")
      [:div [:a {:href "/about"} "go to About Page"]]
+     [:input {
+              :type "button"
+              :value "get request"
+              :on-click #(re-frame/dispatch [:request-it])
+              }]
      ]))
 
 ;; about
