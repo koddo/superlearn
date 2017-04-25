@@ -11,6 +11,10 @@
 %% API.
 
 start(_Type, _Args) ->
+    error_logger:info_msg("node: ~p~n", [node()]),
+    error_logger:info_msg("cookie: ~p~n", [erlang:get_cookie()]),
+
+
 	Dispatch = cowboy_router:compile([
                                       {'_', [
                                              {"/",             cowboy_static, {priv_file, hello_world, "index.html", [{mimetypes, cow_mimetypes, all}]}},

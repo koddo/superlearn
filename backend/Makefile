@@ -4,7 +4,7 @@ PROJECT_VERSION = 1
 
 DTL_PATH = erlydtl/
 
-DEPS = cowboy epgsql erlydtl
+DEPS = cowboy epgsql erlydtl jsx
 dep_cowboy_commit = master
 
 include erlang.mk
