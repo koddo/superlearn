@@ -41,10 +41,20 @@ services:
       - ./backend:/home/theuser/theproject
       - ./client-web/resources/public:/home/theuser/theproject/priv
       - ./database/certs_dev:/home/theuser/certs_dev
+      - ../superlearn.secrets:/home/theuser/secrets
     working_dir: /home/theuser/theproject
     entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
     ports:
       - "8080:8080"
+
+  nginx:
+    image: nginx
+    ports:
+        - "8443:8443"
+    volumes:
+        - ./ngingx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
+        - ./ngingx/ssl/server.crt:/etc/nginx/server.crt:ro
+        - ./ngingx/ssl/server.key:/etc/nginx/server.key:ro
 
 ## -----------------
 
