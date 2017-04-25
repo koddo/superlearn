@@ -52,9 +52,10 @@ services:
     ports:
         - "8443:8443"
     volumes:
-        - ./ngingx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
-        - ./ngingx/ssl/server.crt:/etc/nginx/server.crt:ro
-        - ./ngingx/ssl/server.key:/etc/nginx/server.key:ro
+        - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
+        - ./nginx/server.crt:/etc/nginx/server.crt:ro
+        - ./nginx/server.key:/etc/nginx/server.key:ro
+        - ./client-web/resources/public:/var/www:ro
 
 ## -----------------
 
@@ -78,6 +79,8 @@ services:
 volumes:
   superlearn_pgdata:
     external: true
+
+
 
 
 
