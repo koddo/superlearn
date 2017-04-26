@@ -14,12 +14,19 @@ services:
     command: lein figwheel
     ports:
       - "3449:3449"
+    logging: &logging_anchor
+      options:
+        max-size: 100k
+        max-file: 2
+
 
   gulp:
     image: koddo/gulp
     volumes:
       - ./client-web/less:/home/node/prj/src
       - ./client-web/resources/public/css:/home/node/prj/dest
+    logging:
+      <<: *logging_anchor
 
   flask-static:
     image: koddo/flask-static
@@ -27,11 +34,15 @@ services:
       - ./client-web/resources/public:/home/theuser/static
     ports:
       - "3448:3448"
+    logging:
+      <<: *logging_anchor
 
   browser-console-logger:
     image: koddo/browser-console-logger
     ports:
       - "9907:9907"
+    logging:
+      <<: *logging_anchor
 
 ## -----------------
 
@@ -46,6 +57,8 @@ services:
     entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
     ports:
       - "8080:8080"
+    logging:
+      <<: *logging_anchor
 
   nginx:
     image: nginx
@@ -56,6 +69,8 @@ services:
         - ./nginx/server.crt:/etc/nginx/server.crt:ro
         - ./nginx/server.key:/etc/nginx/server.key:ro
         - ./client-web/resources/public:/var/www:ro
+    logging:
+      <<: *logging_anchor
 
 ## -----------------
 
@@ -71,6 +86,8 @@ services:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
       - superlearn_pgdata:/var/lib/postgresql/data
       # we can't share files here directly, because at the moment of writing docker doesn't allow to map uids in volumes, so we simply copy these files using a copy.sh script
+    logging:
+      <<: *logging_anchor
 
 
 ## -----------------
