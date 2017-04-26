@@ -28,15 +28,6 @@ services:
     logging:
       <<: *logging_anchor
 
-  flask-static:
-    image: koddo/flask-static
-    volumes:
-      - ./client-web/resources/public:/home/theuser/static
-    ports:
-      - "3448:3448"
-    logging:
-      <<: *logging_anchor
-
   browser-console-logger:
     image: koddo/browser-console-logger
     ports:
