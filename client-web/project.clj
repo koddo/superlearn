@@ -50,7 +50,7 @@
      :source-paths ["src/cljs"]
      :figwheel     {
                     :on-jsload "theproject.core/mount-root"
-                    :websocket-host :js-client-host
+                    :websocket-url "wss://[[client-hostname]]:[[client-port]]/figwheel-ws"      ; was :websocket-host :js-client-host
                     }
      :compiler     {:main                 theproject.core
                     :output-to            "resources/public/js/compiled/app.js"
