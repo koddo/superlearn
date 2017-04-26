@@ -31,7 +31,7 @@
    [{:keys [db]} _]
    {
     :http-xhrio {:method          :get
-                 :uri             "http://vagrant.local:8080/rest"
+                 :uri             "/rest"
                  :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true}) 
                  :on-success      [:good-http-result]
