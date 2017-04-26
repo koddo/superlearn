@@ -38,6 +38,8 @@ plt files have to be built on the spot, so for travis we have to generate them i
 
 ``` Shell
 $ docker-compose exec backend bash -c 'TERM=xterm erl -sname remsh_node -setcookie hello_world_example -remsh hello_world_example@$(hostname)'
+$ echo 'some code' | erl_call -c hello_world_example -name hello_world_example@$(hostname) -e
+echo 'code:purge(handler_rest), compile:file("/home/theuser/theproject/src/handler_rest", [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]), code:load_abs("/home/theuser/theproject/ebin/handler_rest").' | erl_call -c hello_world_example -name hello_world_example@$(hostname) -e
 ```
 
 ```
