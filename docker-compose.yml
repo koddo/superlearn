@@ -16,8 +16,8 @@ services:
       - "3449:3449"
     logging: &logging_anchor
       options:
-        max-size: 100k
-        max-file: 2
+        max-size: "100k"
+        max-file: "2"
 
 
   gulp:
