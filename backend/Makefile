@@ -10,3 +10,8 @@ DEPS = cowboy epgsql erlydtl jsx
 dep_cowboy_commit = master
 
 include erlang.mk
+
+## later:
+# lager
+# base64url
+# https://github.com/manifest/pal-google-oauth2
