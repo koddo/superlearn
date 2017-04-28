@@ -60,4 +60,91 @@
   :   "rest": "Hello World!"
   : }
 
+  #+BEGIN_SRC http   :exports both    :curl --insecure
+    GET https://vagrant.local:8443/rest
+    Accept: application/json
+  #+END_SRC
+
+  #+RESULTS:
+  : HTTP/1.1 200 OK
+  : Server: nginx/1.11.13
+  : Date: Wed, 26 Apr 2017 17:22:08 GMT
+  : Content-Type: text/html
+  : Content-Length: 1234
+  : Connection: keep-alive
+  : 
+  : {
+  :     "_links": {
+  :         "curies": [{ "name": "ry", "href": "https://github.com/koddo/ryctoic" }],
+  :         "self": { "href": "https://local.ryctoic.com:8443/api/v0/test" }
+  :     },
+  : 
+  :     "data" : "test",
+  : 
+  :     
+  :     "cards" : [
+  :         
+  : 
+  :         
+  : 
+  :         {"added_at":"2017-04-20T13:45:54.291043Z","card_id":"2c20a1ba-b03e-4973-a8eb-87c835e9ea16","due_date":"2017-04-20T00:00:00Z","packed_progress_data":3458764513820540928,"removed_at":null,"user_id":4}
+  :         
+  :         ,
+  :         
+  : 
+  :         
+  : 
+  :         {"added_at":"2017-04-20T13:46:27.118726Z","card_id":"362b7c55-b64d-4183-b5fb-fd4eb11ae060","due_date":"2017-04-20T00:00:00Z","packed_progress_data":3458764513820540928,"removed_at":null,"user_id":4}
+  :         
+  :         ,
+  :         
+  : 
+  :         
+  : 
+  :         {"added_at":"2017-04-26T17:14:23.644081Z","card_id":"58770846-56bd-4e99-8ac0-19db46e836b9","due_date":"2017-04-26T00:00:00Z","packed_progress_data":3458764513820540928,"removed_at":null,"user_id":4}
+  :         
+  :         ,
+  :         
+  : 
+  :         
+  : 
+  :         {"added_at":"2017-04-26T17:21:47.095958Z","card_id":"cf47914a-1eeb-4bd1-8dee-2b764f3fd5fb","due_date":"2017-04-26T00:00:00Z","packed_progress_data":3458764513820540928,"removed_at":null,"user_id":4}
+  :         
+  :         
+  :         
+  :         
+  :     ]
+  : }
+  : 
+
+
+  #+BEGIN_SRC http   :exports both    :curl --insecure
+    POST https://vagrant.local:8443/rest
+    Content-Type: application/json
+
+    {
+      "the_user_id" : "4",
+      "the_prev_revision_id" : null,
+      "new_front" : "",
+      "new_back" : "",
+      "new_due_date" : "",
+      "new_packed_progress_data" : "",
+      "new_deck_id" : "",
+      "new_context_id" : ""
+    }
+  #+END_SRC
+
+  #+RESULTS:
+  : HTTP/1.1 204 No Content
+  : Server: nginx/1.11.13
+  : Date: Wed, 26 Apr 2017 17:21:47 GMT
+  : Content-Type: application/json
+  : Content-Length: 0
+  : Connection: keep-alive
+  : 
+
+
+
+
+
 

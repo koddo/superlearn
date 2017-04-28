@@ -6,6 +6,7 @@
             ))
 
 (let [name (re-frame/subscribe [:name])
+      cards (re-frame/subscribe [:cards])
       ]
   (defn home-panel []
     [:div (str "Hello from " @name ". This is the Home Page.")
@@ -15,6 +16,18 @@
               :value "get request"
               :on-click #(re-frame/dispatch [:request-it])
               }]
+     (into [:div]
+             (for [c @cards]
+               ^{:key c}
+               [:p (str c)]
+               ;; [:span
+               ;;  [:input {:type "checkbox"
+               ;;           :checked (boolean (<sub [:move x]))
+               ;;           :on-change #(>evt [:set-move [x (-> % .-target .-checked)]])
+               ;;           }]
+               ;;  [:label x]
+               ;;  ]
+               ))
      ]))
 
 ;; about

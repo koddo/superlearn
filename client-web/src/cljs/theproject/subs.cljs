@@ -9,6 +9,11 @@
    (:name db)))
 
 (re-frame/reg-sub
+ :cards
+ (fn [db]
+   (:cards db)))
+
+(re-frame/reg-sub
  :active-panel
  (fn [db _]
    (:active-panel db)))

@@ -40,19 +40,20 @@
     }))
 
 (re-frame/reg-event-db
-  :good-http-result
-  (fn [db [_ result]]
-    (println result)
-    db     ; (assoc db :api-result result)
-    ))
+ :good-http-result
+ [check-spec-interceptor re-frame/debug]
+ (fn [db [_ result]]
+   (assoc db :cards (:cards result))
+   ))
 
 
 (re-frame/reg-event-db
-  :bad-http-result
-  (fn [db eee]
-    (println eee)
-    db     ;; (assoc db :api-result result)
-    ))
+ :bad-http-result
+ [check-spec-interceptor re-frame/debug]
+ (fn [db e]
+   (println e)
+   db     ;; (assoc db :api-result result)
+   ))
 
 
 
