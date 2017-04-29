@@ -1,0 +1,29 @@
+{
+    "_links": {
+        "curies": [{ "name": "ry", "href": "https://github.com/koddo/ryctoic" }],
+        "self": { "href": "https://local.ryctoic.com:8443/api/v0/test" }
+    },
+
+    "data" : "test",
+
+    {% autoescape off %}
+    "cards" : [
+        {% for c in rows %}
+
+        {% comment %}
+        {
+            "user_id" : {{ c.user_id }},
+            "card_id" : {{ c.user_id }},
+            "due_date" : "{{ c.due_date | date: "c" }}",
+            "added_at" : "{{ c.added_at | date: "c" }}"
+        }
+        {% endcomment %}
+
+        {{ c }}
+        
+        {% if not forloop.last %},{% endif %}
+        {% endfor %}
+        {% endautoescape %}
+    ]
+}
+
