@@ -32,6 +32,9 @@ plt files have to be built on the spot, so for travis we have to generate them i
 <https://django.readthedocs.io/en/1.6.x/ref/templates/builtins.html#date>
 <https://github.com/erlydtl/erlydtl/wiki>
 
+Should we use `jsx:decode()` with or without `return_maps`, which is faster in our case? 
+
+<https://ninenines.eu/docs/en/cowboy/2.0/guide/rest_flowcharts/>
 
 # remote shell
 
