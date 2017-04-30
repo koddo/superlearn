@@ -35,15 +35,30 @@
   [:div "This is the About Page."
    [:div [:a {:href "/"} "go to Home Page"]]
 
-   [:textarea {:on-key-down #(when (and       ; http://stackoverflow.com/questions/1684196/ctrlenter-jquery-in-textarea/36478923#36478923
-                                    (or (.-ctrlKey %) (.-metaKey %))
-                                    (or (= 13 (.-keyCode %)) (= 10 (.-keyCode %))))
-                               (re-frame/dispatch [:post-it (-> % .-target .-value)])
-                               (set! (-> % .-target .-value) ""))
+   [:textarea {
+               ;; :on-key-down #(when (and       ; http://stackoverflow.com/questions/1684196/ctrlenter-jquery-in-textarea/36478923#36478923
+               ;;                      (or (.-ctrlKey %) (.-metaKey %))
+               ;;                      (or (= 13 (.-keyCode %)) (= 10 (.-keyCode %))))
+               ;;                 (re-frame/dispatch [:post-it (-> % .-target .-value)])
+               ;;                 (set! (-> % .-target .-value) ""))
+               :id "front"
                :auto-focus true
                :rows 5
                :cols 40
                }]
+   [:textarea {:id "back"
+               :rows 5
+               :cols 40
+               }]
+   [:input {:type "button"     ; TODO: get values of front and back not by using getElementById()
+            :value "Click me!"
+            :on-click #(let [front (.getElementById js/document "front")
+                             back  (.getElementById js/document "back")]
+                         (js/console.log (.-value front)
+                                         (.-value back))
+                         (set! (-> front .-value) "")
+                         (set! (-> back  .-value) "")
+                        )}]
    ])
 
 

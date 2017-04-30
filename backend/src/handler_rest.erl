@@ -115,7 +115,7 @@ content_types_accepted(Req, State) ->
 
 resource_exists(Req, State) ->
     %% later check if resource is new, this is a tiny boilerplate
-    NewState = State#state{resource_exists=false},    
+    NewState = State#state{resource_exists=true},    
     {NewState#state.resource_exists, Req, NewState}.
 
 create_card(Req, State) ->
@@ -124,9 +124,16 @@ create_card(Req, State) ->
     Json = jsx:decode(BodyPost, [return_maps]),
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
+    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json),
+    error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
+
     {ok, Body} = list_json_dtl:render([{rows, []}]),
     ReqN = cowboy_req:set_resp_body(Body, Req2),
 	{{true, <<"/rest">>}, ReqN, State}.
+
+
+
+
 
 
 

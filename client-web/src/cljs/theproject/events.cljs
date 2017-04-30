@@ -61,7 +61,7 @@
  (fn [{:keys [db]} [_ data]]
    {:http-xhrio {:method          :post
                  :uri             "/rest"
-                 :params          { :front data }
+                 :params          { :the_user_id 4 :the_prev_revision_id nil :new_front data :new_back "_" }
                  :timeout         5000
                  :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})

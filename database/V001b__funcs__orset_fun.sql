@@ -372,6 +372,17 @@ $$ language plpgsql;
 
 
 
+create or replace function tmp_create_and_add_card(the_user_id integer, the_prev_revision_id uuid, new_front text, new_back text) returns uuid as $$
+select create_and_add_card(the_user_id, the_prev_revision_id, new_front, new_back,
+        now()::date,
+        pack_progress_data(2.5, 0, 0, 0, false, false, 0),
+        get_or_create_deck_id('whatever'),
+        get_or_create_context_id('https://example.com'));
+$$ language sql;
+
+
+
+
 create or replace function review_card(the_user_id integer, the_card_id uuid, the_response integer) returns void as $$
 declare
     the_due_date date;
