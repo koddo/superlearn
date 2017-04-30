@@ -68,7 +68,7 @@
   #+RESULTS:
   : HTTP/1.1 200 OK
   : Server: nginx/1.11.13
-  : Date: Wed, 26 Apr 2017 17:22:08 GMT
+  : Date: Fri, 28 Apr 2017 11:11:55 GMT
   : Content-Type: text/html
   : Content-Length: 1234
   : Connection: keep-alive
@@ -135,12 +135,28 @@
   #+END_SRC
 
   #+RESULTS:
-  : HTTP/1.1 204 No Content
+  : HTTP/1.1 201 Created
   : Server: nginx/1.11.13
-  : Date: Wed, 26 Apr 2017 17:21:47 GMT
+  : Date: Fri, 28 Apr 2017 17:02:25 GMT
   : Content-Type: application/json
-  : Content-Length: 0
+  : Content-Length: 251
   : Connection: keep-alive
+  : location: /rest
+  : 
+  : {
+  :     "_links": {
+  :         "curies": [{ "name": "ry", "href": "https://github.com/koddo/ryctoic" }],
+  :         "self": { "href": "https://local.ryctoic.com:8443/api/v0/test" }
+  :     },
+  : 
+  :     "data" : "test",
+  : 
+  :     
+  :     "cards" : [
+  :         
+  :         
+  :     ]
+  : }
   : 
 
 
