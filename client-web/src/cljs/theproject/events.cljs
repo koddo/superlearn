@@ -46,7 +46,6 @@
    (assoc db :cards (:cards result))
    ))
 
-
 (re-frame/reg-event-db
  :bad-http-result
  [check-spec-interceptor re-frame/debug]
@@ -56,5 +55,34 @@
    ))
 
 
+(re-frame/reg-event-fx
+ :post-it
+ [check-spec-interceptor re-frame/debug]
+ (fn [{:keys [db]} [_ data]]
+   {:http-xhrio {:method          :post
+                 :uri             "/rest"
+                 :params          { :front data }
+                 :timeout         5000
+                 :format          (ajax/json-request-format)
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success      [:good-post-result]
+                 :on-failure      [:bad-post-result]}
+    :db db
+    }))
 
+(re-frame/reg-event-db
+ :good-post-result
+ [check-spec-interceptor re-frame/debug]
+ (fn [db [_ result]]
+   db      ;; (assoc db :cards (:cards result))
+   ))
+
+
+(re-frame/reg-event-db
+ :bad-post-result
+ [check-spec-interceptor re-frame/debug]
+ (fn [db e]
+   (println e)
+   db     ;; (assoc db :api-result result)
+   ))
 

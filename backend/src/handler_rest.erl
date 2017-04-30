@@ -8,21 +8,22 @@
 -export([content_types_provided/2]).
 -export([content_types_accepted/2]).
 -export([hello_to_json/2]).
+-export([resource_exists/2]).
 -export([create_card/2]).
 
 -include_lib("../deps/epgsql/include/epgsql.hrl").
 
-init(Req, Opts) ->
-	{cowboy_rest, Req, Opts}.
+-record(state, {resource_exists = false}).
+
+init(Req, _Opts = []) ->
+    State = #state{},
+	{cowboy_rest, Req, State}.
+
+%% ---------------------------------------------------------
 
 allowed_methods(Req, State) ->
 	{[<<"HEAD">>, <<"GET">>, <<"POST">>], Req, State}.
 
-content_types_provided(Req, State) ->
-	{[{<<"application/json">>, hello_to_json}], Req, State}.
-
-content_types_accepted(Req, State) ->
-	{[{<<"application/json">>, create_card}], Req, State}.
 
 %% jsx thinks this tuple returned by epgsql is a timestamp, not a date: {2017,4,20} -> 2033-11-30T21:46:44Z
 %% while this is ok: {{2017,4,20},{13,46,27.118726}} -> 2017-04-20T13:46:27.118726Z
@@ -86,6 +87,11 @@ my_apply(Connection, StoredFunction, Json) ->
     {Query, Params} = format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTypes, Json),
     epgsql:equery(Connection, Query, Params).
 
+%% --- GET -------------------------------------------------
+
+content_types_provided(Req, State) ->
+	{[{<<"application/json">>, hello_to_json}], Req, State}.
+
 hello_to_json(Req, State) ->
     StoredFunction = <<"get_cards">>,
     Json = jsx:decode(<<"{\"the_user_id\":4}">>, [return_maps]),
@@ -93,41 +99,34 @@ hello_to_json(Req, State) ->
     {ok, Columns, Rows} = with_connection(fun(Connection) ->
                                                   my_apply(Connection, StoredFunction, Json)
                                           end),
-
     Names_of_columns = [C#column.name || C <- Columns],
     Rows_json = [jsx:encode(
                      map_names_of_columns_to_row_values(Names_of_columns, R)
                     )
                    || R <- Rows],
-    %% error_logger:info_msg("--- Rows_json: ~p~n", [Rows_json]),
     {ok, Body} = list_json_dtl:render([{rows, Rows_json}]),
-	Req_body = cowboy_req:reply(200, #{<<"content-type">> => <<"text/html">>}, Body, Req),
-	{Body, Req_body, State}.
+    {Body, Req, State}.
 
+%% --- POST ------------------------------------------------
 
+content_types_accepted(Req, State) ->
+	{[{<<"application/json">>, create_card}], Req, State}.
 
+resource_exists(Req, State) ->
+    %% later check if resource is new, this is a tiny boilerplate
+    NewState = State#state{resource_exists=false},    
+    {NewState#state.resource_exists, Req, NewState}.
 
 create_card(Req, State) ->
-    {ok, Body, Req2} = cowboy_req:read_body(Req),
-    error_logger:info_msg("--- body text: ~p~n", [Body]),
-    Json = jsx:decode(Body),
+    {ok, BodyPost, Req2} = cowboy_req:read_body(Req),
+    error_logger:info_msg("--- body text: ~p~n", [BodyPost]),
+    Json = jsx:decode(BodyPost, [return_maps]),
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
-    {ok, Connection} = epgsql:connect("postgres.dev.dnsdock", 
-                                      "administrator", 
-                                      no_password, 
-                                      [{database, "thedb"}, 
-                                       {ssl, true}, 
-                                       {cacertfile, "/home/theuser/certs_dev/cacert.pem"},
-                                       {certfile,   "/home/theuser/certs_dev/pg-user-administrator.crt"},
-                                       {keyfile,    "/home/theuser/certs_dev/pg-user-administrator.nopassword.key"},
-                                       {verify, verify_peer},
-                                       {fail_if_no_peer_cert, true}   % this is for server-side, not sure if this works for client-side, but won't hurt
-                                      ]),
-    {ok, _, Rows} = epgsql:equery(Connection, "select create_and_add_card(4, null, $1, $2, now()::date, pack_progress_data(2.5, 0, 0, 0, false, false, 0), get_or_create_deck_id('numbers'), get_or_create_context_id('whatever'));;", [<<"2">>, <<"2">>]),
-    ok = epgsql:close(Connection),
-    error_logger:info_msg("--- SQL Rows: ~p~n", [Rows]),
+    {ok, Body} = list_json_dtl:render([{rows, []}]),
+    ReqN = cowboy_req:set_resp_body(Body, Req2),
+	{{true, <<"/rest">>}, ReqN, State}.
 
 
-	{true, Req2, State}.
+
 

@@ -11,8 +11,7 @@
   (defn home-panel []
     [:div (str "Hello from " @name ". This is the Home Page.")
      [:div [:a {:href "/about"} "go to About Page"]]
-     [:input {
-              :type "button"
+     [:input {:type "button"
               :value "get request"
               :on-click #(re-frame/dispatch [:request-it])
               }]
@@ -34,7 +33,18 @@
 
 (defn about-panel []
   [:div "This is the About Page."
-   [:div [:a {:href "/"} "go to Home Page"]]])
+   [:div [:a {:href "/"} "go to Home Page"]]
+
+   [:textarea {:on-key-down #(when (and       ; http://stackoverflow.com/questions/1684196/ctrlenter-jquery-in-textarea/36478923#36478923
+                                    (or (.-ctrlKey %) (.-metaKey %))
+                                    (or (= 13 (.-keyCode %)) (= 10 (.-keyCode %))))
+                               (re-frame/dispatch [:post-it (-> % .-target .-value)])
+                               (set! (-> % .-target .-value) ""))
+               :auto-focus true
+               :rows 5
+               :cols 40
+               }]
+   ])
 
 
 ;; main
