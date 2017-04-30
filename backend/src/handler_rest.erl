@@ -81,11 +81,13 @@ with_connection(Fun) ->
     end.
 
 %% TODO: rename
-my_apply(Connection, StoredFunction, Json) ->
-    %% TODO: get stored function arguments once, at the first run
-    {ok, _, [{ArgsWithTypes}]} = epgsql:equery(Connection, "select pg_get_function_identity_arguments($1::regproc)", [StoredFunction]),
-    {Query, Params} = format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTypes, Json),
-    epgsql:equery(Connection, Query, Params).
+my_apply(StoredFunction, Json) ->
+    with_connection(fun(Connection) ->
+                            %% TODO: get stored function arguments once, at the first run
+                            {ok, _, [{ArgsWithTypes}]} = epgsql:equery(Connection, "select pg_get_function_identity_arguments($1::regproc)", [StoredFunction]),
+                            {Query, Params} = format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTypes, Json),
+                            epgsql:equery(Connection, Query, Params)
+                    end).
 
 %% --- GET -------------------------------------------------
 
@@ -96,9 +98,8 @@ hello_to_json(Req, State) ->
     StoredFunction = <<"get_cards">>,
     Json = jsx:decode(<<"{\"the_user_id\":4}">>, [return_maps]),
 
-    {ok, Columns, Rows} = with_connection(fun(Connection) ->
-                                                  my_apply(Connection, StoredFunction, Json)
-                                          end),
+
+    {ok, Columns, Rows} = my_apply(StoredFunction, Json),
     Names_of_columns = [C#column.name || C <- Columns],
     Rows_json = [jsx:encode(
                      map_names_of_columns_to_row_values(Names_of_columns, R)
