@@ -25,16 +25,16 @@ allowed_methods(Req, State) ->
 	{[<<"HEAD">>, <<"GET">>, <<"POST">>], Req, State}.
 
 
-%% jsx thinks this tuple returned by epgsql is a timestamp, not a date: {2017,4,20} -> 2033-11-30T21:46:44Z
-%% while this is ok: {{2017,4,20},{13,46,27.118726}} -> 2017-04-20T13:46:27.118726Z
-fix_date_quirk(Date = {_, _, _}) ->
+%% epgsql returns date in this format: {2017,4,20} -> 2033-11-30T21:46:44Z
+%% jsx thinks this is a erlang timestamp like, while datetimes should look like {Date = {_, _, _}, Time = {_, _, _}}
+coerce_epgsql_row_value(Date = {_, _, _}) ->
     {Date, {0, 0, 0}};
-fix_date_quirk(Everything_else) ->
+coerce_epgsql_row_value(Everything_else) ->
     Everything_else.
     
 
 map_names_of_columns_to_row_values(Names_of_columns, Row) ->
-    List_of_row_values = [fix_date_quirk(element(I,Row)) || I <- lists:seq(1,tuple_size(Row))],
+    List_of_row_values = [ coerce_epgsql_row_value( element(I,Row) )  ||  I <- lists:seq( 1, tuple_size(Row) ) ],
     maps:from_list(
       lists:zip(Names_of_columns, List_of_row_values)
      ).
@@ -45,14 +45,15 @@ split_list_into_list_of_pairs([X, Y | T]) ->
 split_list_into_list_of_pairs([]) ->
     [].
 
-%% TODO: rename
-jsx_date_quirk(Arg, Type, Json) ->
-    V = maps:get(Arg, Json),
+get_arg_of_type_from_json_map(Arg, Type, Json) ->
+    Value = maps:get(Arg, Json),
     if Type == <<"date">> ->
-            error_logger:info_msg("--- arg type date: ~p~n", [V]),
-            V;
+            %% jsx itself doesn't make any attempts to parse dates in json, so we do this ourselves
+            {Date, _} = ec_date:parse(binary_to_list(Value)),
+            Date;
        true ->
-            V
+            %% everything else gets parsed just fine
+            Value
     end.
 
 
@@ -68,7 +69,7 @@ format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTy
     TypedPlaceholders = [ io_lib:format("$~B::~s", [I, binary_to_list(Type)]) || 
                             {I, {_Arg, Type}} <- EnumeratedPairs ],
     Query = io_lib:format("select * from ~s(~s);", [binary_to_list(StoredFunction), string:join(TypedPlaceholders, ", ")]),
-    Params = [ jsx_date_quirk(Arg, Type, Json) || {Arg, Type} <- ArgsWithTypesPairs ],
+    Params = [ get_arg_of_type_from_json_map(Arg, Type, Json) || {Arg, Type} <- ArgsWithTypesPairs ],
     {Query, Params}.
 
 %% TODO: SECURITY CRITICAL move secrets out
