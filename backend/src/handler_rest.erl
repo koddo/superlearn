@@ -45,6 +45,17 @@ split_list_into_list_of_pairs([X, Y | T]) ->
 split_list_into_list_of_pairs([]) ->
     [].
 
+%% TODO: rename
+jsx_date_quirk(Arg, Type, Json) ->
+    V = maps:get(Arg, Json),
+    if Type == <<"date">> ->
+            error_logger:info_msg("--- arg type date: ~p~n", [V]),
+            V;
+       true ->
+            V
+    end.
+
+
 %% epgsql can't do substitute function params, like `select * from a_func($1 => $2, $3 => $4)`, so we put things in the right order ourselves
 %% anyway it's either we put function args in the right order or postgres does this for us, and then we still have to validate input
 %% transform <<"get_data">> and <<"the_user_id integer, the_data_id uuid">> into "select * from get_data($1::integer, $2::uuid);" and apply with list of params from json in the right order
@@ -57,7 +68,7 @@ format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTy
     TypedPlaceholders = [ io_lib:format("$~B::~s", [I, binary_to_list(Type)]) || 
                             {I, {_Arg, Type}} <- EnumeratedPairs ],
     Query = io_lib:format("select * from ~s(~s);", [binary_to_list(StoredFunction), string:join(TypedPlaceholders, ", ")]),
-    Params = [ maps:get(Arg, Json) || {Arg, _Type} <- ArgsWithTypesPairs ],
+    Params = [ jsx_date_quirk(Arg, Type, Json) || {Arg, Type} <- ArgsWithTypesPairs ],
     {Query, Params}.
 
 %% TODO: SECURITY CRITICAL move secrets out
@@ -125,6 +136,7 @@ create_card(Req, State) ->
 
     {Date, _Time} = calendar:universal_time(),
     Json2 = maps:update(<<"new_due_date">>, Date, Json),
+    error_logger:info_msg("--- Json2: ~p~n", [Json2]),
 
     {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json2),
     error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),

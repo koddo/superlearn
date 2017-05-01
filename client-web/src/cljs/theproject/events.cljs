@@ -63,7 +63,7 @@
  (fn [{:keys [db]} [_ front back]]
    {:http-xhrio {:method          :post
                  :uri             "/rest"
-                 :params          { :the_user_id 4 :the_prev_revision_id nil :new_front front :new_back back :new_due_date (cljs-time.format/unparse (cljs-time.format/formatters :basic-date-time) (cljs-time/now)) }
+                 :params          { :the_user_id 4 :the_prev_revision_id nil :new_front front :new_back back :new_due_date (cljs-time.format/unparse (cljs-time.format/formatters :basic-date) (cljs-time/now)) }
                  :timeout         5000
                  :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})
