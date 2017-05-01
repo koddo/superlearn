@@ -50,7 +50,7 @@
                :rows 5
                :cols 40
                }]
-   [:input {:type "button"     ; TODO: get values of front and back not by using getElementById()
+   [:input {:type "button"     ; TODO: get values of front and back not by using getElementById(), but by using inputElement.form
             :value "Click me!"
             :on-click #(let [front (.getElementById js/document "front")
                              back  (.getElementById js/document "back")]
