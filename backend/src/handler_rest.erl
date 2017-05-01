@@ -134,11 +134,7 @@ create_card(Req, State) ->
     Json = jsx:decode(BodyPost, [return_maps]),
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
-    {Date, _Time} = calendar:universal_time(),
-    Json2 = maps:update(<<"new_due_date">>, Date, Json),
-    error_logger:info_msg("--- Json2: ~p~n", [Json2]),
-
-    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json2),
+    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json),
     error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
 
     {ok, Body} = list_json_dtl:render([{rows, []}]),
