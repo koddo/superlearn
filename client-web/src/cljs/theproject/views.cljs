@@ -56,6 +56,7 @@
                              back  (.getElementById js/document "back")]
                          (js/console.log (.-value front)
                                          (.-value back))
+                         (re-frame/dispatch [:post-it (.-value front) (.-value back)])
                          (set! (-> front .-value) "")
                          (set! (-> back  .-value) "")
                         )}]
