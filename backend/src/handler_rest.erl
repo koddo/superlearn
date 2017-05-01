@@ -81,10 +81,10 @@ with_connection(Fun) ->
     end.
 
 %% TODO: rename
-my_apply(StoredFunction, Json) ->
+my_apply(StoredFunction, ArgsWithTypes, Json) ->
     with_connection(fun(Connection) ->
                             %% TODO: get stored function arguments once, at the first run
-                            {ok, _, [{ArgsWithTypes}]} = epgsql:equery(Connection, "select pg_get_function_identity_arguments($1::regproc)", [StoredFunction]),
+                            %% {ok, _, [{ArgsWithTypes}]} = epgsql:equery(Connection, "select pg_get_function_identity_arguments($1::regproc)", [StoredFunction]),
                             {Query, Params} = format_query_with_params_from_json_in_the_right_order(StoredFunction, ArgsWithTypes, Json),
                             epgsql:equery(Connection, Query, Params)
                     end).
@@ -95,11 +95,10 @@ content_types_provided(Req, State) ->
 	{[{<<"application/json">>, hello_to_json}], Req, State}.
 
 hello_to_json(Req, State) ->
-    StoredFunction = <<"get_cards">>,
     Json = jsx:decode(<<"{\"the_user_id\":4}">>, [return_maps]),
 
 
-    {ok, Columns, Rows} = my_apply(StoredFunction, Json),
+    {ok, Columns, Rows} = my_apply(<<"get_cards">>, <<"the_user_id integer">>, Json),
     Names_of_columns = [C#column.name || C <- Columns],
     Rows_json = [jsx:encode(
                      map_names_of_columns_to_row_values(Names_of_columns, R)
@@ -124,7 +123,9 @@ create_card(Req, State) ->
     Json = jsx:decode(BodyPost, [return_maps]),
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
-    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json),
+    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, 
+                                   <<"the_user_id integer, the_prev_revision_id uuid, new_front text, new_back text">>, 
+                                   Json),
     error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
 
     {ok, Body} = list_json_dtl:render([{rows, []}]),
