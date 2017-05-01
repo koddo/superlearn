@@ -6,7 +6,7 @@ RELX_CONFIG = relx-dev.config
 
 DTL_PATH = erlydtl/
 
-DEPS = cowboy epgsql erlydtl jsx
+DEPS = cowboy epgsql erlydtl jsx erlware_commons
 dep_cowboy_commit = master
 
 include erlang.mk
