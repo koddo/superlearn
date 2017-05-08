@@ -1,4 +1,7 @@
 
+-- TODO: get_history_of_card()
+-- TODO: check for uuid collisions everywhere
+
 !!! never write to-do inside schema migration files, they are meant to be final and unchangeable !!!
 
 !!! write them here !!!
@@ -88,7 +91,7 @@ select remove_context_from_card(4, '6f2b7ac4-5277-4b34-ad33-41d774bf2e6a'::uuid,
 select remove_context_from_card(4, '8fc6912a-19a1-479b-854f-77a4752e4025'::uuid, get_or_create_context_id('http://my-jekyll.dev.dnsdock:4000/ryctoic/python#conditionals-and-loops'));
 
 select * from users; select * from cards; select * from cards_orset; select * from decks; select * from card_decks_orset; select * from contexts; select * from card_contexts_orset;
-select * from users where id = 1; select * from cards where created_by = 1; select * from cards_orset where user_id = 1; select * from card_decks_orset where user_id = 1; select * from card_contexts_orset where user_id = 1;
+select * from users where id = 4; select * from cards where created_by = 4; select * from cards_orset where user_id = 4; select * from card_decks_orset where user_id = 4; select * from card_contexts_orset where user_id = 4;
 select * from get_card_contexts(4, ''::uuid) as c join card_contexts_orset as s on c = s.context_id join contexts as ctx on s.context_id = ctx.id where s.removed_at is null;
 
 select * from show_all(4);
