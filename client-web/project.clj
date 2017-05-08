@@ -14,6 +14,7 @@
                  [com.cognitect/transit-cljs "0.8.239"]
                  [day8.re-frame/http-fx "0.1.3"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
+                 [org.clojure/core.match "0.3.0-alpha4"]
                  ]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
