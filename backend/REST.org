@@ -1,5 +1,13 @@
 
-* test
+* endpoints
+
+  | show_all          | GET /rest                    |
+  | add_card          | POST /rest                   |
+  | review_card       | POST /rest/review            |
+  | edit_card_content | POST /rest/edit_card_content |
+  |                   |                              |
+
+* requests examples
   :PROPERTIES:
   :header-args:python:   :results output   :python /Users/alex/.python_virtualenvs/default/bin/python
   :END:
