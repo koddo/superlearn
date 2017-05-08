@@ -9,7 +9,7 @@
 TODO: make volume for lein-deps
 
 
-
+<http://stackoverflow.com/questions/26615900/how-can-i-shorten-a-uuid-to-a-specific-length>
 
 
 
