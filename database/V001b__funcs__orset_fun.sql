@@ -2,8 +2,6 @@ begin;
 set local role admin_role;
 
 
--- TODO: get_history_of_card()
--- TODO: check for uuid collisions everywhere
 
 create or replace function create_card(the_user_id integer, the_prev_revision_id uuid, new_front text, new_back text) returns uuid as $$
 declare
@@ -92,7 +90,7 @@ $$ language plpgsql;
 
 
 
-create or replace function get_cards(the_user_id integer) returns setof cards_orset as $$
+create or replace function get_cards_orset(the_user_id integer) returns setof cards_orset as $$
 begin
 return query
 select * from cards_orset as s
@@ -372,12 +370,12 @@ $$ language plpgsql;
 
 
 
-create or replace function tmp_create_and_add_card(the_user_id integer, the_prev_revision_id uuid, new_front text, new_back text, new_due_date date) returns uuid as $$
+create or replace function tmp_create_and_add_card(the_user_id integer, the_prev_revision_id uuid, new_front text, new_back text, new_due_date date, deck_name text, context_url text) returns uuid as $$
 select create_and_add_card(the_user_id, the_prev_revision_id, new_front, new_back,
         new_due_date,
         pack_progress_data(2.5, 0, 0, 0, false, false, 0),
-        get_or_create_deck_id('whatever'),
-        get_or_create_context_id('https://example.com'));
+        get_or_create_deck_id(deck_name),
+        get_or_create_context_id(context_url));
 $$ language sql;
 
 
@@ -495,7 +493,8 @@ create or replace function show_all(the_user_id integer) returns table(
         due date,
         progress_data text
         ) as $$
-select get_deck_name(deck_id) as deck_name,
+select
+    get_deck_name(deck_id) as deck_name,
     array(select get_deck_name(deck_id) from get_card_decks(the_user_id, c.id)),
     c.id,
     aux_substring_with_dots_at_end(c.front),
@@ -511,16 +510,44 @@ select get_deck_name(deck_id) as deck_name,
     -- (unpack_progress_data(r.packed_progress_data)).more_than_one_removed_at    || ',' ||
     -- (unpack_progress_data(r.packed_progress_data)).prev_seconds_spent_on_card
     ')'
-from get_cards(the_user_id) as r 
+from get_cards_orset(the_user_id) as r
     join cards as c on r.card_id = c.id
     join get_card_decks(the_user_id, c.id) on true
 where true;
 $$ language sql;
 
+create or replace function tmp_show_all(the_user_id integer) returns table(
+        card_id uuid,
+        front text,
+        back text,
+        decks_list text[],
+        contexts_list text[],
+        added_at timestamptz,        
+        due date,
+        easiness_factor real,
+        prev_interval integer,
+        prev_response integer,
+        num_of_lapses integer,
+        prev_response_was_made_in_mobile_app boolean,
+        more_than_one_removed_at boolean,
+        prev_seconds_spent_on_card integer
+        ) as $$
+select
+    c.id,
+    c.front,
+    c.back,
+    array(select get_deck_name(deck_id)        from get_card_decks(the_user_id, c.id)),
+    array(select get_context_url(context_id)   from get_card_contexts(the_user_id, c.id)),
+    r.added_at,
+    r.due_date,
+    (unpack_progress_data(r.packed_progress_data)).*
+from get_cards_orset(the_user_id) as s 
+    join cards as c on s.card_id = c.id
+where true;
+$$ language sql;
 
-
-  
 
 
 commit;
+
 
