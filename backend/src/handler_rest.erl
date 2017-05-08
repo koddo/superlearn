@@ -110,7 +110,7 @@ hello_to_json(Req, State) ->
     Json = jsx:decode(<<"{\"the_user_id\":4}">>, [return_maps]),
 
 
-    {ok, Columns, Rows} = my_apply(<<"get_cards">>, Json),
+    {ok, Columns, Rows} = my_apply(<<"tmp_show_all">>, Json),
     Names_of_columns = [C#column.name || C <- Columns],
     Rows_json = [jsx:encode(
                      map_names_of_columns_to_row_values(Names_of_columns, R)
@@ -135,9 +135,17 @@ create_card(Req, State) ->
     Json = jsx:decode(BodyPost, [return_maps]),
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
-    {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json),
-    error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
+    Binding = cowboy_req:binding(asdf, Req),
+    error_logger:info_msg("--- review: ~p~n", [Binding]),
+    if Binding == <<"review">> ->
+            {ok, Columns, Rows} = my_apply(<<"review_card">>, Json);
+       Binding == <<"edit_card_content">> ->
+            {ok, Columns, Rows} = my_apply(<<"edit_card_content">>, Json);
+       true ->
+            {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json)
+    end,
 
+    error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
     {ok, Body} = list_json_dtl:render([{rows, []}]),
     ReqN = cowboy_req:set_resp_body(Body, Req2),
 	{{true, <<"/rest">>}, ReqN, State}.

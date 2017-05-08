@@ -3,6 +3,7 @@
             [ajax.core :as ajax]
             [clojure.string :as string]
             [reagent.core :as reagent]
+            [cljs.core.match :refer-macros [match]]
             ))
 
 (let [name (re-frame/subscribe [:name])
@@ -18,7 +19,18 @@
      (into [:div]
              (for [c @cards]
                ^{:key c}
-               [:p (str c)]
+               [:p.preserve-newlines
+                ;; (str c)
+                " "
+                (:front c)
+                " "
+                (:back c)
+                " "
+                (str (:decks_list c))
+                " "
+                (str (:contexts_list c))
+                [:a {:href (str "/card/" (:card_id c))} "c"]
+                ]
                ;; [:span
                ;;  [:input {:type "checkbox"
                ;;           :checked (boolean (<sub [:move x]))
@@ -50,32 +62,94 @@
                :rows 5
                :cols 40
                }]
-   [:input {:type "button"     ; TODO: get values of front and back not by using getElementById(), but by using inputElement.form
-            :value "Click me!"
-            :on-click #(let [front (.getElementById js/document "front")
-                             back  (.getElementById js/document "back")]
+   [:input {:type "text"
+            :id "deck_name"}]
+   [:input {:type "text"
+            :id "context_url"}]
+   [:input {:type "button"     ; TODO: get values of front and back not by using getElementById(), but by using inputElement.form or document.querySelectorAll()
+            :value "add card"
+            :on-click #(let [front         (.getElementById js/document "front")
+                             back          (.getElementById js/document "back")
+                             deck_name     (.getElementById js/document "deck_name")
+                             context_url   (.getElementById js/document "context_url")
+                             ]
                          (js/console.log (.-value front)
                                          (.-value back))
-                         (re-frame/dispatch [:post-it (.-value front) (.-value back)])
+                         (re-frame/dispatch [:post-it (.-value front) (.-value back) (.-value deck_name) (.-value context_url)])
                          (set! (-> front .-value) "")
                          (set! (-> back  .-value) "")
                         )}]
    ])
 
+(let [cards (re-frame/subscribe [:cards])
+      ]
+  (defn card-panel [card_id]
+    [:div
+     [:a {:href "/"} "home"]
+      (let [c (first (filter (comp #{card_id} :card_id) @cards))]
+        [:div
+         [:div
+          [:p.preserve-newlines ":front: " (:front c)]
+          [:p.preserve-newlines ":back: " (:back c)]
+          [:p ":decks_list " (str (:decks_list c))]
+          [:p ":contexts_list " (str (:contexts_list c))]
+          [:p ":added_at " (:added_at  c)]
+          [:p ":due: " (:due c)]
+          [:p ":prev_response " (:prev_response c)]
+          [:p ":prev_interval " (:prev_interval c)]
+          [:p ":easiness_factor " (:easiness_factor c)]
+          [:p ":num_of_lapses " (:num_of_lapses c)]
+          [:p ":prev_seconds_spent_on_card " (:prev_seconds_spent_on_card c)]
+          ;; [:p (str c)]
+          [:input {:type "button" :value "again"  :on-click #(re-frame/dispatch [:review-card card_id 0])}]
+          [:input {:type "button" :value "easy" :on-click #(re-frame/dispatch [:review-card card_id 3])}]
+          [:input {:type "button" :value "normal" :on-click #(re-frame/dispatch [:review-card card_id 4])}]
+          [:p]
+          ]
+         [:div
+          [:textarea {
+                      :id "front"
+                      :auto-focus true
+                      :rows 5
+                      :cols 40
+                      :defaultValue (:front c)
+                      }]
+          [:textarea {:id "back"
+                      :rows 5
+                      :cols 40
+                      :defaultValue (:back c)
+                      }]
+          [:input {:type "button"
+                   :value "edit card content"
+                   :on-click #(let [front         (.-value (.getElementById js/document "front"))
+                                    back          (.-value (.getElementById js/document "back"))
+                                    ]
+                                (when-not (and (= front (:front c))
+                                               (= back  (:back c)))
+                                  (re-frame/dispatch [:edit-card-content card_id front back])
+                                  )
+                                )}]]
+         ]
+        )
+     ])
+  )
 
 ;; main
 
-(defn- panels [panel-name]
-  (case panel-name
+(defn panels [panel-name]
+  (match panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
+    [:card-panel card_id] [card-panel card_id]
     [:div]))
 
-(defn show-panel [panel-name]
-  [panels panel-name])
+;; (defn show-panel [panel-name]
+;;   [panels panel-name])
 
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
     (fn []
-      [show-panel @active-panel])))
+      ;; [show-panel @active-panel]
+      [panels @active-panel]
+      )))

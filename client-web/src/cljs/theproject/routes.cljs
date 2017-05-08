@@ -33,6 +33,9 @@
   (defroute "/about" []
     (re-frame/dispatch [:set-active-panel :about-panel]))
 
+  (defroute "/card/:card_id" [card_id]
+    (re-frame/dispatch [:set-active-panel [:card-panel card_id]]))
+
 
   ;; (hook-routes-with-octothorp-prefix)
   (hook-routes)

@@ -10,7 +10,8 @@
             ))
 
 (def check-spec-interceptor
-  (re-frame/after #(s/assert :theproject.db/good-state %)))
+  (re-frame/after #(s/assert :theproject.db/good-state %))
+  )
 
 
 
@@ -60,10 +61,17 @@
 (re-frame/reg-event-fx
  :post-it
  [check-spec-interceptor re-frame/debug]
- (fn [{:keys [db]} [_ front back]]
+ (fn [{:keys [db]} [_ front back deck_name context_url]]
    {:http-xhrio {:method          :post
                  :uri             "/rest"
-                 :params          { :the_user_id 4 :the_prev_revision_id nil :new_front front :new_back back :new_due_date (cljs-time.format/unparse (cljs-time.format/formatters :date-time) (cljs-time/now)) }
+                 :params          {:the_user_id 4
+                                   :the_prev_revision_id nil
+                                   :new_front front
+                                   :new_back back
+                                   :new_due_date (cljs-time.format/unparse (cljs-time.format/formatters :date-time) (cljs-time/now))
+                                   :deck_name deck_name
+                                   :context_url context_url
+                                   }
                  :timeout         5000
                  :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})
@@ -87,4 +95,44 @@
    (println e)
    db     ;; (assoc db :api-result result)
    ))
+
+
+
+(re-frame/reg-event-fx
+ :review-card
+ [check-spec-interceptor re-frame/debug]
+ (fn [{:keys [db]} [_ card_id response]]
+   {:http-xhrio {:method          :post
+                 :uri             "/rest/review"
+                 :params          {:the_user_id 4
+                                   :the_card_id card_id
+                                   :the_response response 
+                                   }
+                 :timeout         5000
+                 :format          (ajax/json-request-format)
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success      [:good-post-result]
+                 :on-failure      [:bad-post-result]}
+    :db db
+    }))
+
+(re-frame/reg-event-fx
+ :edit-card-content
+ [check-spec-interceptor re-frame/debug]
+ (fn [{:keys [db]} [_ card_id new_front new_back]]
+   {:http-xhrio {:method          :post
+                 :uri             "/rest/edit_card_content"
+                 :params          {:the_user_id 4
+                                   :the_card_id card_id
+                                   :new_front new_front 
+                                   :new_back new_back 
+                                   }
+                 :timeout         5000
+                 :format          (ajax/json-request-format)
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success      [:good-post-result]
+                 :on-failure      [:bad-post-result]}
+    :db db
+    }))
+
 
