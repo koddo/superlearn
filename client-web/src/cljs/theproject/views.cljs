@@ -89,8 +89,8 @@
       (let [c (first (filter (comp #{card_id} :card_id) @cards))]
         [:div
          [:div
-          [:div {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
-          [:div {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
+          [:div.card {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+          [:div.card {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
           [:p ":decks_list " (str (:decks_list c))]
           [:p ":contexts_list " (str (:contexts_list c))]
           [:p ":added_at " (:added_at  c)]
