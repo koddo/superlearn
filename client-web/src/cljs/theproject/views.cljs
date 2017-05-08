@@ -89,7 +89,6 @@
       (let [c (first (filter (comp #{card_id} :card_id) @cards))]
         [:div
          [:div
-          [:p.preserve-newlines ":back: " (:back c)]
           [:div {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
           [:div {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
           [:p ":decks_list " (str (:decks_list c))]
