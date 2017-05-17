@@ -137,18 +137,18 @@ create_card(Req, State) ->
 
     Binding = cowboy_req:binding(asdf, Req),
     error_logger:info_msg("--- review: ~p~n", [Binding]),
-    if Binding == <<"review">> ->
-            {ok, Columns, Rows} = my_apply(<<"review_card">>, Json);
-       Binding == <<"edit_card_content">> ->
-            {ok, Columns, Rows} = my_apply(<<"edit_card_content">>, Json);
-       true ->
-            {ok, Columns, Rows} = my_apply(<<"tmp_create_and_add_card">>, Json)
-    end,
+    {ok, Columns, Rows} = if Binding == <<"review">> ->
+                                  my_apply(<<"review_card">>, Json);
+                             Binding == <<"edit_card_content">> ->
+                                  my_apply(<<"edit_card_content">>, Json);
+                             true ->
+                                  my_apply(<<"tmp_create_and_add_card">>, Json)
+                          end,
 
     error_logger:info_msg("--- result: ~p~n", [{ok, Columns, Rows}]),
     {ok, Body} = list_json_dtl:render([{rows, []}]),
     ReqN = cowboy_req:set_resp_body(Body, Req2),
-	{{true, <<"/rest">>}, ReqN, State}.
+	{{true, <<"/api/v0">>}, ReqN, State}.
 
 
 

@@ -34,7 +34,7 @@
    [{:keys [db]} _]
    {
     :http-xhrio {:method          :get
-                 :uri             "/rest"
+                 :uri             "/api/v0"
                  :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true}) 
                  :on-success      [:good-http-result]
@@ -63,7 +63,7 @@
  [check-spec-interceptor re-frame/debug]
  (fn [{:keys [db]} [_ front back deck_name context_url]]
    {:http-xhrio {:method          :post
-                 :uri             "/rest"
+                 :uri             "/api/v0"
                  :params          {:the_user_id 4
                                    :the_prev_revision_id nil
                                    :new_front front
@@ -103,7 +103,7 @@
  [check-spec-interceptor re-frame/debug]
  (fn [{:keys [db]} [_ card_id response]]
    {:http-xhrio {:method          :post
-                 :uri             "/rest/review"
+                 :uri             "/api/v0/review"
                  :params          {:the_user_id 4
                                    :the_card_id card_id
                                    :the_response response 
@@ -121,7 +121,7 @@
  [check-spec-interceptor re-frame/debug]
  (fn [{:keys [db]} [_ card_id new_front new_back]]
    {:http-xhrio {:method          :post
-                 :uri             "/rest/edit_card_content"
+                 :uri             "/api/v0/edit_card_content"
                  :params          {:the_user_id 4
                                    :the_card_id card_id
                                    :new_front new_front 
