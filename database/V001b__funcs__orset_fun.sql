@@ -34,7 +34,7 @@ update cards_orset set removed_at = now()
     where user_id = the_user_id and card_id = the_card_id and removed_at is null;
 end;
 $$ language plpgsql;
-
+-- TODO: should we also remove card from decks and clear its contexts? Right now we don't.
 
 
 create or replace function has_card(the_user_id integer, the_card_id uuid) returns boolean as $$
@@ -43,6 +43,20 @@ return exists(
     select 1 from cards_orset as s
     where s.user_id = the_user_id
         and s.card_id = the_card_id
+        and s.removed_at is null
+        );
+end;
+$$ language plpgsql;
+
+
+
+create or replace function has_card_with_front(the_user_id integer, the_front text) returns boolean as $$
+begin
+return exists(
+    select 1 from cards_orset as s
+    join cards as c on c.id = s.card_id
+    where s.user_id = the_user_id
+        and c.front = the_front
         and s.removed_at is null
         );
 end;
@@ -359,6 +373,9 @@ declare
     new_card_id uuid;
 begin
 -- TODO: in create_and_add_card() make sure cards.created_at = cards_orset.added_at
+if has_card_with_front(the_user_id, new_front) then
+    raise exception 'user_id=% already has card with front=%', the_user_id, new_front;
+end if;
 select * into new_card_id from create_card(the_user_id, the_prev_revision_id, new_front, new_back);
 perform add_card(the_user_id, new_card_id, new_due_date, new_packed_progress_data);
 perform add_card_to_deck(the_user_id, new_card_id, new_deck_id);

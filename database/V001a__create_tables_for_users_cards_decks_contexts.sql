@@ -23,8 +23,8 @@ create table cards (
         back               text not null    constraint card_back_length  check ( 0 < char_length(back)   and  char_length(back)  <= 1000 ),
         prev_revision_id   uuid     references cards(id)     on delete set null
         );
-create unique index cards_content_by_user_unique_idx on cards(created_by, md5(lower(front)), md5(lower(back)));
-
+-- create unique index cards_content_by_user_unique_idx on cards(created_by, md5(lower(front)), md5(lower(back)));
+-- TODO: should we not allow users to have duplicates? we now check if has_card_with_front()
 
 create table cards_orset (
         user_id                integer  not null references users(id)     on delete cascade,
