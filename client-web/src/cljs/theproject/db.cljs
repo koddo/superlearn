@@ -14,6 +14,7 @@
                               :home-panel true
                               :about-panel true
                               [:card-panel _card_id] true   ; TODO: check id
+                              [:deck-panel _deck_id] true   ; TODO: check id
                               :else false))
 
 ;; (s/def ::cards (s/map-of string? (fn [_] true)))

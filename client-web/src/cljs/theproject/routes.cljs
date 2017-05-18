@@ -18,11 +18,11 @@
 ;;        (secretary/dispatch! (.-token event))))
 ;;     (.setEnabled true)))
 
+(defonce history (pushy/pushy secretary/dispatch! (fn [x] (when (secretary/locate-route x) x))))
 (defn hook-routes []
-  (def history (pushy/pushy secretary/dispatch! (fn [x] (when (secretary/locate-route x) x))))
+  (secretary/set-config! :prefix "/")
   (pushy/start! history)
   )
-
 
 
 (defn app-routes []
@@ -36,6 +36,9 @@
   (defroute "/card/:card_id" [card_id]
     (re-frame/dispatch [:set-active-panel [:card-panel card_id]]))
 
+  (defroute "/deck/:deck_id" [deck_id]
+    (re-frame/dispatch [:set-active-panel [:deck-panel deck_id]]))
+  
 
   ;; (hook-routes-with-octothorp-prefix)
   (hook-routes)

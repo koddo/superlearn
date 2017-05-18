@@ -7,6 +7,7 @@
             [ajax.core :as ajax]
             [cljs-time.core :as cljs-time]
             [cljs-time.format]
+            [pushy.core :as pushy]
             ))
 
 (def check-spec-interceptor
@@ -15,11 +16,19 @@
 
 
 
-(re-frame/reg-event-db
+;; (re-frame/reg-event-db
+;;  :initialize-db
+;;  [check-spec-interceptor re-frame/debug]
+;;  (fn  [_ _]
+;;    db/default-db))
+
+(re-frame/reg-event-fx
  :initialize-db
  [check-spec-interceptor re-frame/debug]
- (fn  [_ _]
-   db/default-db))
+ (fn  [{:keys [db]} _]
+   {:db db/default-db
+    :dispatch [:request-it]
+    }))
 
 (re-frame/reg-event-db
  :set-active-panel
@@ -80,13 +89,15 @@
     :db db
     }))
 
+(defn go-home [_] (pushy/set-token! theproject.routes/history "/"))
+
 (re-frame/reg-event-db
  :good-post-result
- [check-spec-interceptor re-frame/debug]
+ [check-spec-interceptor re-frame/debug
+  (re-frame/after go-home)]
  (fn [db [_ result]]
-   db      ;; (assoc db :cards (:cards result))
+   (assoc db :cards (:cards result))
    ))
-
 
 (re-frame/reg-event-db
  :bad-post-result

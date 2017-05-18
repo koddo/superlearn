@@ -4,6 +4,8 @@
             [clojure.string :as string]
             [reagent.core :as reagent]
             [cljs.core.match :refer-macros [match]]
+            [secretary.core :as secretary]
+            [pushy.core :as pushy]
             ))
 
 (let [name (re-frame/subscribe [:name])
@@ -11,9 +13,9 @@
       ]
   (defn home-panel []
     [:div (str "Hello from " @name ". This is the Home Page.")
-     [:div [:a {:href "/about"} "go to About Page"]]
+     [:div [:a {:href "/about"} "create card"]]
      [:input {:type "button"
-              :value "get request"
+              :value "reload cards"
               :on-click #(re-frame/dispatch [:request-it])
               }]
      (into [:div]
@@ -134,6 +136,14 @@
      ])
   )
 
+(let [cards (re-frame/subscribe [:cards])
+      ]
+  (defn deck-panel [deck_id]
+    [:div
+     [:a {:href "/"} "home"]
+     [:p (str deck_id)]
+     ]))
+
 ;; main
 
 (defn panels [panel-name]
@@ -141,6 +151,7 @@
     :home-panel [home-panel]
     :about-panel [about-panel]
     [:card-panel card_id] [card-panel card_id]
+    [:deck-panel deck_id] [deck-panel deck_id]
     [:div]))
 
 ;; (defn show-panel [panel-name]
