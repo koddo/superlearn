@@ -19,6 +19,11 @@
               :on-click #(re-frame/dispatch [:request-it])
               }]
      (into [:div]
+           (for [d (distinct (flatten (for [c @cards] (:decks_list c))))]
+                        [:p [:a {:href (str "/deck/" d)} d]]
+                        ))
+     (into [:div]
+             ;; (for [c (filter (fn [coll] (some #(= % "whatever") (:decks_list coll))) @cards)]
              (for [c @cards]
                ^{:key c}
                [:p.preserve-newlines
@@ -89,49 +94,50 @@
     [:div
      [:a {:href "/"} "home"]
       (let [c (first (filter (comp #{card_id} :card_id) @cards))]
-        [:div
-         [:div
-          [:div.card {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
-          [:div.card {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
-          [:p ":decks_list " (str (:decks_list c))]
-          [:p ":contexts_list " (str (:contexts_list c))]
-          [:p ":added_at " (:added_at  c)]
-          [:p ":due: " (:due c)]
-          [:p ":prev_response " (:prev_response c)]
-          [:p ":prev_interval " (:prev_interval c)]
-          [:p ":easiness_factor " (:easiness_factor c)]
-          [:p ":num_of_lapses " (:num_of_lapses c)]
-          [:p ":prev_seconds_spent_on_card " (:prev_seconds_spent_on_card c)]
-          ;; [:p (str c)]
-          [:input {:type "button" :value "again"  :on-click #(re-frame/dispatch [:review-card card_id 0])}]
-          [:input {:type "button" :value "easy" :on-click #(re-frame/dispatch [:review-card card_id 3])}]
-          [:input {:type "button" :value "normal" :on-click #(re-frame/dispatch [:review-card card_id 4])}]
-          [:p]
-          ]
-         [:div
-          [:textarea {
-                      :id "front"
-                      :auto-focus true
-                      :rows 5
-                      :cols 40
-                      :defaultValue (:front c)
-                      }]
-          [:textarea {:id "back"
-                      :rows 5
-                      :cols 40
-                      :defaultValue (:back c)
-                      }]
-          [:input {:type "button"
-                   :value "edit card content"
-                   :on-click #(let [front         (.-value (.getElementById js/document "front"))
-                                    back          (.-value (.getElementById js/document "back"))
-                                    ]
-                                (when-not (and (= front (:front c))
-                                               (= back  (:back c)))
-                                  (re-frame/dispatch [:edit-card-content card_id front back])
-                                  )
-                                )}]]
-         ]
+        (when c
+          [:div
+           [:div
+            [:div.card {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+            [:div.card {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
+            [:p ":decks_list " (str (:decks_list c))]
+            [:p ":contexts_list " (str (:contexts_list c))]
+            [:p ":added_at " (:added_at  c)]
+            [:p ":due: " (:due c)]
+            [:p ":prev_response " (:prev_response c)]
+            [:p ":prev_interval " (:prev_interval c)]
+            [:p ":easiness_factor " (:easiness_factor c)]
+            [:p ":num_of_lapses " (:num_of_lapses c)]
+            [:p ":prev_seconds_spent_on_card " (:prev_seconds_spent_on_card c)]
+            ;; [:p (str c)]
+            [:input {:type "button" :value "again"  :on-click #(re-frame/dispatch [:review-card card_id 0])}]
+            [:input {:type "button" :value "easy" :on-click #(re-frame/dispatch [:review-card card_id 3])}]
+            [:input {:type "button" :value "normal" :on-click #(re-frame/dispatch [:review-card card_id 4])}]
+            [:p]
+            ]
+           [:div
+            [:textarea {
+                        :id "front"
+                        :auto-focus true
+                        :rows 5
+                        :cols 40
+                        :defaultValue (:front c)
+                        }]
+            [:textarea {:id "back"
+                        :rows 5
+                        :cols 40
+                        :defaultValue (:back c)
+                        }]
+            [:input {:type "button"
+                     :value "edit card content"
+                     :on-click #(let [front         (.-value (.getElementById js/document "front"))
+                                      back          (.-value (.getElementById js/document "back"))
+                                      ]
+                                  (when-not (and (= front (:front c))
+                                                 (= back  (:back c)))
+                                    (re-frame/dispatch [:edit-card-content card_id front back])
+                                    )
+                                  )}]]
+           ])
         )
      ])
   )
