@@ -23,7 +23,7 @@
         
         {% if not forloop.last %},{% endif %}
         {% endfor %}
-        {% endautoescape %}
     ]
+    {% endautoescape %}
 }
 
