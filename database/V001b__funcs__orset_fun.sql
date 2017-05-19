@@ -237,6 +237,18 @@ $$ language plpgsql;
 
 
 
+create or replace function get_cards_in_deck(the_user_id integer, the_deck_id uuid) returns table(card_id uuid) as $$
+begin
+return query
+select s.card_id from card_decks_orset as s
+where s.user_id = the_user_id
+    and s.deck_id = the_deck_id
+    and s.removed_at is null;
+end;
+$$ language plpgsql;
+
+
+
 create or replace function add_card_to_deck(the_user_id integer, the_card_id uuid, the_deck_id uuid) returns void as $$
 begin
 if not deck_has_card(the_user_id, the_card_id, the_deck_id) then

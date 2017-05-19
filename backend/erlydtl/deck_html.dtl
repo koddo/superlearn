@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>deck</title>
+  </head>
+  <body>
+    {% autoescape off %}
+        {% for c in rows %}
+
+        <p>{{ c }}</p>
+        
+        {% endfor %}
+    {% endautoescape %}
+
+  </body>
+</html>
+
+        

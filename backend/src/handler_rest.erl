@@ -104,19 +104,31 @@ my_apply(StoredFunction, Json) ->
 %% --- GET -------------------------------------------------
 
 content_types_provided(Req, State) ->
-	{[{<<"application/json">>, hello_to_json}], Req, State}.
+	{[
+      {<<"application/json">>, hello_to_json},
+      {<<"text/html">>, hello_to_json}
+     ], Req, State}.
 
 hello_to_json(Req, State) ->
     Json = jsx:decode(<<"{\"the_user_id\":4}">>, [return_maps]),
-
-
-    {ok, Columns, Rows} = my_apply(<<"tmp_show_all">>, Json),
+    Binding = cowboy_req:binding(asdf, Req),
+    Binding2 = cowboy_req:binding(fdsa, Req),
+    error_logger:info_msg("--- Binding, Binding2: ~p ~p~n", [Binding, Binding2]),
+    {ok, Columns, Rows} = if Binding == <<"deck">> ->
+                                  my_apply(<<"get_cards_in_deck">>, maps:put(<<"the_deck_id">>, Binding2, Json));
+                             true ->
+                                  my_apply(<<"tmp_show_all">>, Json)
+                          end,
     Names_of_columns = [C#column.name || C <- Columns],
     Rows_json = [jsx:encode(
                      map_names_of_columns_to_row_values(Names_of_columns, R)
                     )
                    || R <- Rows],
-    {ok, Body} = list_json_dtl:render([{rows, Rows_json}]),
+    {ok, Body} = if Binding == <<"deck">> ->
+                         deck_html_dtl:render([{rows, Rows_json}]);
+                    true ->
+                         list_json_dtl:render([{rows, Rows_json}])
+                 end,
     {Body, Req, State}.
 
 %% --- POST ------------------------------------------------
@@ -136,7 +148,6 @@ create_card(Req, State) ->
     error_logger:info_msg("--- body decoded: ~p~n", [Json]),
 
     Binding = cowboy_req:binding(asdf, Req),
-    error_logger:info_msg("--- review: ~p~n", [Binding]),
     {ok, Columns, Rows} = if Binding == <<"review">> ->
                                   my_apply(<<"review_card">>, Json);
                              Binding == <<"edit_card_content">> ->
