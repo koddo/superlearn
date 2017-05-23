@@ -246,7 +246,7 @@ where s.user_id = the_user_id
     and s.removed_at is null;
 end;
 $$ language plpgsql;
-
+-- select * from get_cards_in_deck(4, '4db66f7c-cee0-4de3-84c7-fdd28b030a82'::uuid) as d join cards as c on d.card_id = c.id;
 
 
 create or replace function add_card_to_deck(the_user_id integer, the_card_id uuid, the_deck_id uuid) returns void as $$

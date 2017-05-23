@@ -24,32 +24,16 @@
            (for [d (distinct (flatten (for [c @cards] (:decks_list c))))]
              [:p [:a {:href (str "/deck/" d)} d]]
              ))
-     (into [:div]
-             ;; (for [c (filter (fn [coll] (some #(= % "whatever") (:decks_list coll))) @cards)]
-             (for [c (sort-by :due @cards)]
-               ^{:key c}
-               [:p.preserve-newlines
-                (str (:due c))
-                " "
-                [:a {:href (str "/card/" (:card_id c))} "c"]
-                " "
-                (:front c)
-                " "
-                ;; (:back c)
-                ;; " "
-                (str (:decks_list c))
-                ;; " "
-                ;; (str (:contexts_list c))
-                " "
-                ]
-               ;; [:span
-               ;;  [:input {:type "checkbox"
-               ;;           :checked (boolean (<sub [:move x]))
-               ;;           :on-change #(>evt [:set-move [x (-> % .-target .-checked)]])
-               ;;           }]
-               ;;  [:label x]
-               ;;  ]
-               ))
+     [:table.superlearn (into [:tbody]
+                   ;; (for [c (filter (fn [coll] (some #(= % "whatever") (:decks_list coll))) @cards)]
+                   (for [c (sort-by :due @cards)]
+                     ^{:key c}
+                     [:tr
+                      [:td (str (:due c)) " " [:a {:href (str "/card/" (:card_id c))} "c"]]
+                      [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+                      [:td (str (:decks_list c))]
+                      ]
+                     ))]
      ]))
 
 ;; about
