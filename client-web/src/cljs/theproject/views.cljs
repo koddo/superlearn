@@ -6,6 +6,8 @@
             [cljs.core.match :refer-macros [match]]
             [secretary.core :as secretary]
             [pushy.core :as pushy]
+            [cljs-time.core :as cljs-time]
+            [cljs-time.format]
             ))
 
 (let [name (re-frame/subscribe [:name])
@@ -20,23 +22,25 @@
               }]
      (into [:div]
            (for [d (distinct (flatten (for [c @cards] (:decks_list c))))]
-                        [:p [:a {:href (str "/deck/" d)} d]]
-                        ))
+             [:p [:a {:href (str "/deck/" d)} d]]
+             ))
      (into [:div]
              ;; (for [c (filter (fn [coll] (some #(= % "whatever") (:decks_list coll))) @cards)]
-             (for [c @cards]
+             (for [c (sort-by :due @cards)]
                ^{:key c}
                [:p.preserve-newlines
-                ;; (str c)
+                (str (:due c))
+                " "
+                [:a {:href (str "/card/" (:card_id c))} "c"]
                 " "
                 (:front c)
                 " "
-                (:back c)
-                " "
+                ;; (:back c)
+                ;; " "
                 (str (:decks_list c))
+                ;; " "
+                ;; (str (:contexts_list c))
                 " "
-                (str (:contexts_list c))
-                [:a {:href (str "/card/" (:card_id c))} "c"]
                 ]
                ;; [:span
                ;;  [:input {:type "checkbox"
