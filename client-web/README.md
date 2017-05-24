@@ -13,5 +13,10 @@ TODO: make volume for lein-deps
 
 
 
+# markdown and mathjax together
 
-Got an idea how to process mathjax before markdown here: <https://github.com/kerzol/markdown-mathjax/blob/master/editor.html>
+We now have a quick and dirty fix. Got an idea how to process mathjax before markdown here: <https://github.com/kerzol/markdown-mathjax/blob/master/editor.html>
+
+Would be better to protect latex (including underscores and backslashes, etc) from markdown parser and then queue mathjax. Here is how stackoverflow does this: <https://gist.github.com/gdalgas/a652bce3a173ddc59f66>, <https://stackoverflow.com/questions/11228558/let-pagedown-and-mathjax-work-together/35368129#35368129>
+
+
