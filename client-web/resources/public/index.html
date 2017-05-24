@@ -15,6 +15,36 @@
         <script src="/js/compiled/app.js"></script>
         <script>theproject.core.init();</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+
+        <script>
+
+         function MyEscape(html, encode) {
+             return html
+                 .replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;')
+                 .replace(/</g, '&lt;')
+                 .replace(/>/g, '&gt;')
+                 .replace(/"/g, '&quot;')
+                 .replace(/'/g, '&#39;');
+         };
+         
+         function MyUnescape(text) {
+             return text.replace(/^&gt;/mg, '>');
+         };
+
+         function MyDone(el) {
+             el.innerHTML = marked(MyUnescape(el.innerHTML));
+         };
+
+         
+         
+
+        </script>
+        
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }, tex2jax: { inlineMath: [['$','$'],['\\\\(','\\\\)']] }, showProcessingMessages: false });</script>
+        <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> -->
+        <script type="text/javascript" async
+                src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
     </body>
 </html>
 

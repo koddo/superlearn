@@ -30,7 +30,18 @@
                      ^{:key c}
                      [:tr
                       [:td (str (:due c)) " " [:a {:href (str "/card/" (:card_id c))} "c"]]
-                      [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+                      ;; [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+                      [:td {:ref (fn [el]
+                                   (when (and el
+                                              ;; (re-find #"\$|\(" (.-innerHTML el))
+                                              )
+                                     (set! (.-innerHTML el) (js/MyEscape (.-innerHTML el)))
+                                     (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el]
+                                                           #js ["MyDone" js/window el]
+                                                           )
+                                     ))}
+                       (:front c)
+                       ]
                       [:td (str (:decks_list c))]
                       ]
                      ))]
@@ -85,8 +96,25 @@
         (when c
           [:div
            [:div
-            [:div.card {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
-            [:div.card {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
+            ;; [:div.card {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+            ;; [:div.card {:dangerouslySetInnerHTML {:__html (-> (:back  c) str js/marked)}}]
+            [:div {:ref (fn [el]
+                          (when (and el
+                                     (re-find #"\$|\(" (.-innerHTML el))
+                                     )
+                           (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el])
+                           ))}
+             (:front c)
+             ]
+            [:div {:ref (fn [el]
+                          (when (and el
+                                     (re-find #"\$|\(" (.-innerHTML el))
+                                     )
+                           (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el])
+                           ))}
+             (:back c)
+             ]
+
             [:p ":decks_list " (str (:decks_list c))]
             [:p ":contexts_list " (str (:contexts_list c))]
             [:p ":added_at " (:added_at  c)]

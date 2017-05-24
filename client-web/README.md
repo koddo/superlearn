@@ -14,3 +14,4 @@ TODO: make volume for lein-deps
 
 
 
+Got an idea how to process mathjax before markdown here: <https://github.com/kerzol/markdown-mathjax/blob/master/editor.html>
