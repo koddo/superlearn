@@ -21,4 +21,9 @@ This is not ideal, because we can't put latex text into quotes, it will be shown
 
 Would be better to protect latex (including underscores and backslashes, etc) from markdown parser and queue mathjax only after that. Here is how stackoverflow does this: <https://gist.github.com/gdalgas/a652bce3a173ddc59f66>, <https://stackoverflow.com/questions/11228558/let-pagedown-and-mathjax-work-together/35368129#35368129>
 
+There is a pull request to the marked.js, not merged yet: <https://github.com/chjj/marked/pull/799>
 
+Kramdown parser uses \$\$ for both inline and block math: <https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/math.rb>, <https://github.com/gettalong/kramdown/blob/master/lib/kramdown/parser/kramdown/math.rb>
+
+<https://github.com/cben/mathdown/wiki/math-in-markdown>
+<https://gist.github.com/mikelove/cbf6eb431406852ba725>
