@@ -26,25 +26,40 @@
              ))
      [:table.superlearn (into [:tbody]
                    ;; (for [c (filter (fn [coll] (some #(= % "whatever") (:decks_list coll))) @cards)]
-                   (for [c (sort-by :due @cards)]
-                     ^{:key c}
-                     [:tr
-                      [:td (str (:due c)) " " [:a {:href (str "/card/" (:card_id c))} "c"]]
-                      ;; [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
-                      [:td {:ref (fn [el]
-                                   (when el
-                                     (if-not (re-find #"\$|\(" (.-innerHTML el))
-                                       (set! (.-innerHTML el) (-> (:front c) str js/marked))
-                                       (do (set! (.-innerHTML el) (js/MyEscape (.-innerHTML el)))
-                                           (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el]
-                                                                 #js ["MyDone" js/window el]))
-                                       )
-                                     ))}
-                       (:front c)
-                       ]
-                      [:td (str (:decks_list c))]
-                      ]
-                     ))]
+                                ;; (for [c (sort-by :due @cards)]
+                              (apply concat
+                                     (for [[i group] (map-indexed vector (partition-by :due (sort-by :due @cards)))]
+                                       (for [c group]
+                                         ^{:key c}
+                                         [:tr (when (odd? i) {:class "grey"})
+                                          [:td (str (:due c)) " " [:a {:href (str "/card/" (:card_id c))} "c"]]
+                                          [:td {:ref (fn [el]
+                                                       (when el
+                                                         (if-not (re-find #"\\\(|\\\[" (.-innerHTML el))   ; was also |\$.*\$
+                                                           (set! (.-innerHTML el) (-> (:front c) str js/marked))
+                                                           (do (set! (.-innerHTML el) (js/MyEscape (.-innerHTML el)))          ;; [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+                                                               (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el]
+                                                                                     #js ["MyDone" js/window el]))
+                                                           )
+                                                         ))}
+                                           (:front c)
+                                           ]
+                                          [:td (str (:decks_list c))]
+                                          ])))
+                              ;;   )
+                              ;; (apply concat
+                              ;;        (for [[i lst] (map-indexed vector (partition-by :due (sort-by :due @cards)))]
+                              ;;          (for [c lst]
+                              ;;            ^{:key c}
+                              ;;            [:tr (if (odd? i) {:style {:background-color "red"}})
+                              ;;             [:td (:due c)]
+                              ;;             ]
+                              ;;            )
+
+                              ;;          ))
+                              
+                              
+                              )]
      ]))
 
 ;; about
