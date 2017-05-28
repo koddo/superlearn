@@ -27,3 +27,10 @@ Kramdown parser uses \$\$ for both inline and block math: <https://github.com/ge
 
 <https://github.com/cben/mathdown/wiki/math-in-markdown>
 <https://gist.github.com/mikelove/cbf6eb431406852ba725>
+
+We replace `<` with `&lt`, `>` with `&gt;`, etc, so html tags are shown just as: <https://stackoverflow.com/questions/24816/escaping-html-strings-with-jquery>
+
+TODO: configure marked.js; sanitaze=true?
+
+
+<https://css-tricks.com/choosing-right-markdown-parser/>

@@ -33,11 +33,12 @@
                                          ^{:key c}
                                          [:tr (when (odd? i) {:class "grey"})
                                           [:td (str (:due c)) " " [:a {:href (str "/card/" (:card_id c))} "c"]]
+                                          ;; [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
                                           [:td {:ref (fn [el]
                                                        (when el
                                                          (if-not (re-find #"\\\(|\\\[" (.-innerHTML el))   ; was also |\$.*\$
                                                            (set! (.-innerHTML el) (-> (:front c) str js/marked))
-                                                           (do (set! (.-innerHTML el) (js/MyEscape (.-innerHTML el)))          ;; [:td {:dangerouslySetInnerHTML {:__html (-> (:front c) str js/marked)}}]
+                                                           (do (set! (.-innerHTML el) (js/MyEscape (.-innerHTML el)))
                                                                (js/MathJax.Hub.Queue #js ["Typeset" js/MathJax.Hub el]
                                                                                      #js ["MyDone" js/window el]))
                                                            )

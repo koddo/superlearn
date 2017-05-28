@@ -18,7 +18,7 @@ database/V*_funcs__*.sql
 # security
 
 TODO: SECURITY make sure iframe-resizer is safe, can't be used for xss and csrf
-TODO: SECURITY make sure mark-down js is safe
+TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing-xss-vulnerability-marked>, <https://snyk.io/blog/marked-xss-vulnerability/>
 
 # fsevents
 
