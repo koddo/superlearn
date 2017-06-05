@@ -116,6 +116,9 @@ hello_to_json(Req, State) ->
     error_logger:info_msg("--- Binding, Binding2: ~p ~p~n", [Binding, Binding2]),
     {ok, Columns, Rows} = if Binding == <<"deck">> ->
                                   my_apply(<<"get_cards_in_deck">>, maps:put(<<"the_deck_id">>, Binding2, Json));
+                             Binding == <<"deck_asdf">> ->
+                                  error_logger:info_msg("--- query string: ~p~n", [cowboy_req:match_qs([list], Req)]),
+                                  my_apply(<<"tmp_show_all">>, Json);
                              true ->
                                   my_apply(<<"tmp_show_all">>, Json)
                           end,
