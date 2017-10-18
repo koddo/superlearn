@@ -46,7 +46,7 @@ echo 'code:purge(handler_rest), compile:file("/home/theuser/theproject/src/handl
 ```
 
 ```
-c("/home/theuser/theproject/src/fff", [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]).
+c("/home/theuser/theproject/src/handler_name", [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]).
 erlydtl:compile_file("/home/theuser/theproject/erlydtl/fff.dtl", fff_dtl, [{out_dir, false}]).
 hello_world_app:router_live_update().
 ```

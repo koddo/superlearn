@@ -26,3 +26,13 @@ TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing
 <https://geoff.greer.fm/fsevents/>, <https://geoff.greer.fm/2015/12/25/fsevents-tools-watch-a-directory-for-changes/>
 
 
+# misc
+
+<https://developer.yahoo.com/performance/rules.html>
+
+# sort
+
+<https://www.slideshare.net/stormpath/rest-jsonapis>
+<https://www.sitepoint.com/best-practices-rest-api-scratch-introduction/>
+<http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api>
+<https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/>
