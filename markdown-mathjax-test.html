@@ -10,40 +10,61 @@
 # header
 ## subheader
 
-hello *world*
+hello _world_, **wonderful**, $a+b$, $x_{1,2}={\frac{ -b\pm \sqrt{\textcolor{red}{b^{2}-4ac}} } {2a}}$
 
-\\\\( a+b \\\\)
 
-        </div>
+`$$x_{1,2}={\frac{ -b\pm \sqrt{\textcolor{red}{b^{2}-4ac}} } {2a}}$$` =>
+
+$$x_{1,2}={\frac{ -b\pm \sqrt{\textcolor{red}{b^{2}-4ac}} } {2a}}$$
+
+            
+$$
+\begin{equation}
+\left[
+{\bf X} + {\rm a} \ \geq\
+\underline{\hat a} \sum_i^N \lim_{x \rightarrow k} \delta C
+\right]
+\end{equation}
+$$
+
+$$
+\begin{align*}
+n! = 1 \cdot 2 \cdot \ldots \cdot &\frac{n}{2} \cdot \ldots \cdot n \geqslant \\
+\geqslant \ &\frac{n}{2} \cdot \ldots \cdot \frac{n}{2} = \left(\frac{n}{2}\right)^{\textcolor{red}{\frac{n}{2}}}
+\end{align*}
+$$
+
+# problems with the dollar sign
+            
+`foo $a, n, b$` => foo $a, n, b$
+
+`foo $a, \$, b$` => foo $a, \$, b$
+
+`foo \\(a, \$, b\\)` => foo \\(a, \$, b\\)
+
+
+# chemistry only works with double slashes `\\( \\)`
+
+`\\( \ce{CO2 + C -> 2 CO} \\)` => \\( \ce{CO2 + C -> 2 CO} \\)
+
+`$ \ce{CO2 + C -> 2 CO} $` => $ \ce{CO2 + C -> 2 CO} $
+
+            
+</div>
 
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
-
-        <!-- <script>
-
-             function MyEscape(html, encode) {
-             return html
-             .replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;')
-             .replace(/</g, '&lt;')
-             .replace(/>/g, '&gt;')
-             .replace(/"/g, '&quot;')
-             .replace(/'/g, '&#39;');
-             };
-             
-             function MyUnescape(text) {
-             return text.replace(/^&gt;/mg, '>');
-             };
-
-             function MyDone(el) {
-             el.innerHTML = marked(MyUnescape(el.innerHTML));
-             };
-
-             </script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script> -->
+        <!-- https://github.com/chjj/marked/issues/722#issuecomment-190934293 -->
+        <!-- https://github.com/Feder1co5oave/marktex/tree/production -->
+        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
         
         <script type="text/x-mathjax-config">
-         MathJax.Hub.Config({ TeX: { extensions: ["color.js"] },
-                              tex2jax: { inlineMath:  [ ['\\\\(','\\\\)'] ],    // was also ['$','$']
-                                         displayMath: [ ['\\\\[','\\\\]'] ]     // was also ['$$','$$']
+         MathJax.Ajax.config.path["mhchem"] =
+             "https://cdnjs.cloudflare.com/ajax/libs/mathjax-mhchem/3.2.0";
+         MathJax.Hub.Config({ TeX: { extensions: ["color.js", "[mhchem]/mhchem.js"] },
+                              tex2jax: {
+                                  inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+                                  displayMath: [ ['$$','$$'], ['\[','\]'] ]
                               },
                               showProcessingMessages: false });
         </script>
