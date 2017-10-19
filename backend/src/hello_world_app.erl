@@ -22,12 +22,13 @@ start(_Type, _Args) ->
                                              %% {"/css/[...]",    cowboy_static, {priv_dir,  hello_world, "css",        [{mimetypes, cow_mimetypes, all}]}},
                                              {"/api/v0/", handler_rest, []},
                                              {"/api/v0/:asdf", handler_rest, []},
-                                             {"/api/v0/:asdf/:fdsa", handler_rest, []}
+                                             {"/api/v0/:asdf/:fdsa", handler_rest, []},
+                                             {"/", handler_index, []}
                                             ]}
                                      ]),
-	{ok, _} = cowboy:start_clear(http, 100, [{port, 8080}], #{
-                                              env => #{dispatch => Dispatch}
-                                             }),
+	{ok, _} = cowboy:start_clear(http, [{port, 8080}], #{
+                                         env => #{dispatch => Dispatch}
+                                        }),
 	hello_world_sup:start_link().
 
 stop(_State) ->
