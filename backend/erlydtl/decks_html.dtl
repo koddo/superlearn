@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>hello</title>
+    </head>
+    <body>
+        <h1>Decks</h1>
+
+        {% autoescape off %}
+            <ul>
+                <li>Capitals, Africa</li>
+                <li>String theory</li>
+            </ul>
+        {% endautoescape %}
+
+        <a href="/ht/cards">cards</a>
+    </body>
+</html>

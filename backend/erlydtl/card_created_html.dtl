@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>hello</title>
+    </head>
+    <body>
+        <h1>Card created</h1>
+
+        <p><a href="/ht/cards/{{ card_id }}">/ht/cards/{{ card_id }}</a></p>
+        <p><a href="/ht/cards/add">add a card</a></p>
+        <p><a href="/ht/cards">cards</a></p>
+    </body>
+</html>

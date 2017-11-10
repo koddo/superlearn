@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>hello</title>
+    </head>
+    <body>
+        <h1>Cards</h1>
+        <a href="/ht/cards">cards</a>
+        <form action="/ht/cards" method="post">
+            <label for="front">front: <input type="text" name="front"></label>
+            <label for="back">back: <input type="text" name="back"></label>
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>

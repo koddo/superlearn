@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>hello</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.contentWindow.min.js"></script>
+    </head>
+    <body>
+        <h1>Cards</h1>
+
+        {% autoescape off %}
+            <ul>
+                {% for c in rows %}
+                    <li><a href="/ht/cards/{{ c.card_id }}">link</a> front: {{ c.front }}, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
+                {% endfor %}
+            </ul>
+        {% endautoescape %}
+
+        <a href="/ht/decks">decks</a>
+        <a href="/ht/cards/add">add a card</a>
+
+        <p>hello</p>
+    </body>
+</html>

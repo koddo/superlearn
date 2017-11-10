@@ -11,9 +11,14 @@
 -export([resource_exists/2]).
 -export([create_card/2]).
 
+
+-export([map_names_of_columns_to_row_values/2]).
+
 -include_lib("../deps/epgsql/include/epgsql.hrl").
 
 -record(state, {resource_exists = false}).
+
+
 
 init(Req, _Opts = []) ->
     State = #state{},
