@@ -1,13 +1,7 @@
-# --- beginning of add_theuser.in
-
-# not finished yet
-
-
+define(`apt_get_install', `
 RUN apt-get update && apt-get install -y \
-    foreachq(`package', `curl, wget`, `package \`)
+    $1 \
     && \
-    apt-get update && apt-get install -y erlang=$ERLANG_VERSION && \
     apt-get -y autoclean && apt-get -y autoremove
-
-# --- end of add_theuser.in
+')
 
