@@ -50,3 +50,10 @@ c("/home/theuser/theproject/src/handler_name", [{outdir, "/home/theuser/theproje
 erlydtl:compile_file("/home/theuser/theproject/erlydtl/fff.dtl", fff_dtl, [{out_dir, false}]).
 hello_world_app:router_live_update().
 ```
+
+
+``` Erlang
+filelib:fold_files("/home/theuser/theproject/src/", "\.erl$", false, fun(File, Acc) -> c(File, [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]), Acc end, []),
+filelib:fold_files("/home/theuser/theproject/erlydtl/", "\.dtl$", false, fun(File, Acc) -> DtlModuleName = filename:basename(File, ".dtl") ++ "_dtl", erlydtl:compile_file(File, DtlModuleName, [{out_dir, false}]), Acc end, []),
+hello_world_app:router_live_update().
+```
