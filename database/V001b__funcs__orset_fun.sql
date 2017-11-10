@@ -38,6 +38,30 @@ $$ language plpgsql;
 
 
 
+create or replace function remove_card_from_all_decks(the_user_id integer, the_card_id uuid) returns void as $$
+begin
+-- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
+update card_decks_orset set removed_at = now()
+where user_id = the_user_id
+    and card_id = the_card_id
+    and removed_at is null;
+end;
+$$ language plpgsql;
+
+
+
+create or replace function remove_all_contexts_from_card(the_user_id integer, the_card_id uuid) returns void as $$
+begin
+-- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
+update card_contexts_orset as s set removed_at = now()
+where s.user_id = the_user_id
+    and s.card_id = the_card_id
+    and s.removed_at is null;
+end;
+$$ language plpgsql;
+
+
+
 create or replace function remove_card_from_orset_decks_contexts(the_user_id integer, the_card_id uuid) returns void as $$
 select remove_card(the_user_id, the_card_id);
 select remove_card_from_all_decks(the_user_id, the_card_id);
@@ -282,18 +306,6 @@ $$ language plpgsql;
 
 
 
-create or replace function remove_card_from_all_decks(the_user_id integer, the_card_id uuid) returns void as $$
-begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
-update card_decks_orset set removed_at = now()
-where user_id = the_user_id
-    and card_id = the_card_id
-    and removed_at is null;
-end;
-$$ language plpgsql;
-
-
-
 create or replace function get_or_create_context_id(the_url text) returns uuid as $$
 declare
     new_id uuid;
@@ -366,22 +378,6 @@ where s.user_id = the_user_id
     and s.removed_at is null;
 end;
 $$ language plpgsql;
-
-
-
-create or replace function remove_all_contexts_from_card(the_user_id integer, the_card_id uuid) returns void as $$
-begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
-update card_contexts_orset as s set removed_at = now()
-where s.user_id = the_user_id
-    and s.card_id = the_card_id
-    and s.removed_at is null;
-end;
-$$ language plpgsql;
-
-
-
-
 
 
 
@@ -517,9 +513,9 @@ select
     c.back,
     array(select get_deck_name(deck_id)        from get_card_decks(the_user_id, c.id)),
     array(select get_context_url(context_id)   from get_card_contexts(the_user_id, c.id)),
-    r.added_at,
-    r.due_date,
-    (unpack_progress_data(r.packed_progress_data)).*
+    s.added_at,
+    s.due_date,
+    (unpack_progress_data(s.packed_progress_data)).*
 from get_cards_orset(the_user_id) as s 
     join cards as c on s.card_id = c.id
 where true;
