@@ -5,35 +5,38 @@ version: '2'
 
 services:
 
-  figwheel:
-    image: koddo/lein
-    volumes:
-      - ./client-web:/home/theuser/theproject
-      - ./client-web/lein-deps:/home/theuser/.m2/      # cache dependencies of lein figwheel to avoid downloading them on every run, this is gitignored
-    working_dir: /home/theuser/theproject
-    command: lein figwheel
-    ports:
-      - "3449:3449"
-    logging: &logging_anchor
-      options:
-        max-size: "100k"
-        max-file: "2"
+  # figwheel:
+  #   image: koddo/lein
+  #   volumes:
+  #     - ./client-web:/home/theuser/theproject
+  #     - ./client-web/lein-deps:/home/theuser/.m2/      # cache dependencies of lein figwheel to avoid downloading them on every run, this is gitignored
+  #   working_dir: /home/theuser/theproject
+  #   command: lein figwheel
+  #   ports:
+  #     - "3449:3449"
+  #   logging: &logging_anchor
+  #     options:
+  #       max-size: "100k"
+  #       max-file: "2"
+  #   entrypoint: /bin/true
 
 
-  gulp:
-    image: koddo/gulp
-    volumes:
-      - ./client-web/less:/home/node/prj/src
-      - ./client-web/resources/public/css:/home/node/prj/dest
-    logging:
-      <<: *logging_anchor
+  # gulp:
+  #   image: koddo/gulp
+  #   volumes:
+  #     - ./client-web/less:/home/node/prj/src
+  #     - ./client-web/resources/public/css:/home/node/prj/dest
+  #   logging:
+  #     <<: *logging_anchor
+  #   entrypoint: /bin/true
 
-  browser-console-logger:
-    image: koddo/browser-console-logger
-    ports:
-      - "9907:9907"
-    logging:
-      <<: *logging_anchor
+  # browser-console-logger:
+  #   image: koddo/browser-console-logger
+  #   ports:
+  #     - "9907:9907"
+  #   logging:
+  #     <<: *logging_anchor
+  #   entrypoint: /bin/true
 
 ## -----------------
 
@@ -41,27 +44,29 @@ services:
     image: koddo/erlang
     volumes:
       - ./backend:/home/theuser/theproject
-      - ./client-web/resources/public:/home/theuser/theproject/priv
+      # - ./client-web/resources/public:/home/theuser/theproject/priv
       - ./database/certs_dev:/home/theuser/certs_dev
       - ../superlearn.secrets:/home/theuser/secrets
     working_dir: /home/theuser/theproject
     entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
     ports:
       - "8080:8080"
-    logging:
-      <<: *logging_anchor
+    logging: &logging_anchor
+      options:
+        max-size: "100k"
+        max-file: "2"
 
-  nginx:
-    image: nginx
-    ports:
-        - "8443:8443"
-    volumes:
-        - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
-        - ./nginx/server.crt:/etc/nginx/server.crt:ro
-        - ./nginx/server.key:/etc/nginx/server.key:ro
-        - ./client-web/resources/public:/var/www:ro
-    logging:
-      <<: *logging_anchor
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #       - "8443:8443"
+  #   volumes:
+  #       - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
+  #       - ./nginx/server.crt:/etc/nginx/server.crt:ro
+  #       - ./nginx/server.key:/etc/nginx/server.key:ro
+  #       - ./client-web/resources/public:/var/www:ro
+  #   logging:
+  #     <<: *logging_anchor
 
 ## -----------------
 
@@ -75,7 +80,7 @@ services:
       - PGDATA=/var/lib/postgresql/data   # this is the default value
     volumes:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
-      - superlearn_pgdata:/var/lib/postgresql/data
+      # - superlearn_pgdata:/var/lib/postgresql/data
       # we can't share files here directly, because at the moment of writing docker doesn't allow to map uids in volumes, so we simply copy these files using a copy.sh script
     logging:
       <<: *logging_anchor
