@@ -51,6 +51,13 @@ cards_html(Req, State = index) ->
     {ok, Body} = cards_html_dtl:render(#{rows => Rows2}),
     {Body, Req, State};
 cards_html(Req, State = CardId) ->
+    %% #{show := Show} = cowboy_req:match_qs([show], Req),
+    QsVals = cowboy_req:parse_qs(Req),
+    ShowTuple = lists:keyfind(<<"show">>, 1, QsVals),
+    Show = case ShowTuple of
+               {_, S} -> S;
+               false -> false
+           end,
     error_logger:info_msg("--- CardId: ~p~n", [CardId]),
     {ok, Columns, _Rows = [CardRow|_]} = misc:with_connection(fun(C) -> 
                                                        epgsql:equery(C, "select * from cards as c where c.id = $1::uuid;", [CardId])
@@ -60,7 +67,7 @@ cards_html(Req, State = CardId) ->
     Names_of_columns = [C#column.name || C <- Columns],
     Card = handler_rest:map_names_of_columns_to_row_values(Names_of_columns, CardRow),
     error_logger:info_msg("--- Card: ~p~n", [Card]),
-    {ok, Body} = card_html_dtl:render(Card),
+    {ok, Body} = card_html_dtl:render(Card#{show => Show}),
     {Body, Req, State}.
 
 %% --- POST ---

@@ -6,11 +6,11 @@
     </head>
     <body>
         <h1>Cards</h1>
-        <a href="/ht/cards">cards</a>
         <form action="/ht/cards" method="post">
-            <label for="front">front: <input type="text" name="front"></label>
-            <label for="back">back: <input type="text" name="back"></label>
-            <input type="submit" value="Submit">
+            <label for="front">front: <textarea name="front"></textarea></label>
+            <label for="back">back: <textarea name="back"></textarea></label>
+            <input type="submit" value="- Submit">
         </form>
+        <p><a href="/ht/cards">cards</a></p>
     </body>
 </html>

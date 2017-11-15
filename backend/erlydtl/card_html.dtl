@@ -6,23 +6,18 @@
     </head>
     <body>
         <h1>Card</h1>
-        <a href="/ht/cards">cards</a>
         {% autoescape off %}
             <p>front: {{ front }}</p>
-            <p id="card_back">back: {{ back }}</p>
-            <p>due: {{ due }}</p>
-            <p>decks: {{ decks_list }}</p>
-            <p>contexts: {{ contexts_list }}</p>
+            {% if show %}<p>back: {{ back }}</p>{% endif %}
+            <p>- due: {{ due }}</p>
+            <p>- decks: {{ decks_list }}</p>
+            <p>- contexts: {{ contexts_list }}</p>
         {% endautoescape %}
-        <input type="button" value="show" onclick="show_card_back()">
-        <input type="button" value="again">
-        <input type="button" value="normal">
+        <!-- <input type="button" value="show" onclick="show_card_back()"> -->
+        <p><a href="/ht/cards/{{ id }}?show">show</a></p>
+        <input type="button" value="- again">
+        <input type="button" value="- normal">
+        <p><a href="/ht/cards">cards</a></p>
 
-        <script type="text/javascript">
-         document.getElementById('card_back').style.display = "none";
-         function show_card_back() {
-             document.getElementById('card_back').style.display = "";
-         }
-	    </script>
     </body>
 </html>

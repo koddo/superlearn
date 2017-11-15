@@ -10,14 +10,14 @@
 
         {% autoescape off %}
             <ul>
-                {% for c in rows %}
-                    <li><a href="/ht/cards/{{ c.card_id }}">link</a> front: {{ c.front }}, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
+                {% for c in rows|dictsort:"due" %}
+                    <li><a href="/ht/cards/{{ c.card_id }}">-></a> {{ c.front }}, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
                 {% endfor %}
             </ul>
         {% endautoescape %}
 
-        <a href="/ht/decks">decks</a>
-        <a href="/ht/cards/add">add a card</a>
+        <p><a href="/ht/cards/add">add a card</a></p>
+        <p><a href="/ht/decks">decks</a></p>
 
     </body>
 </html>
