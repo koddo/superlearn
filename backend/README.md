@@ -53,7 +53,9 @@ hello_world_app:router_live_update().
 
 
 ``` Erlang
-filelib:fold_files("/home/theuser/theproject/src/", "\.erl$", false, fun(File, Acc) -> c(File, [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]), Acc end, []),
-filelib:fold_files("/home/theuser/theproject/erlydtl/", "\.dtl$", false, fun(File, Acc) -> DtlModuleName = filename:basename(File, ".dtl") ++ "_dtl", erlydtl:compile_file(File, DtlModuleName, [{out_dir, false}]), Acc end, []),
+filelib:fold_files("/home/theuser/theproject/src/", "\.erl$", false, fun(File, Acc) -> c(File, [{outdir, "/home/theuser/theproject/ebin/"}, debug_info]), Acc end, []).
+filelib:fold_files("/home/theuser/theproject/erlydtl/", "\.dtl$", false, fun(File, Acc) -> DtlModuleName = filename:basename(File, ".dtl") ++ "_dtl", erlydtl:compile_file(File, DtlModuleName, [{out_dir, false}]), Acc end, []).
 hello_world_app:router_live_update().
 ```
+
+<http://superlearn.it:8080/ht/asdf?deckname=whatever&c=d686d189-05de-49c3-bf86-752e68411897&c=5a3256db-1cba-41b4-a497-9eb8675181c5>
