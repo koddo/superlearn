@@ -9,6 +9,8 @@
         <form action="/ht/cards" method="post">
             <label for="front">front: <textarea name="front"></textarea></label>
             <label for="back">back: <textarea name="back"></textarea></label>
+            <label for="deck">deck: <input type="text" name="deck"></label>
+            <label for="context">context: <input type="text" name="context"></label>
             <input type="submit" value="- Submit">
         </form>
         <p><a href="/ht/cards">cards</a></p>

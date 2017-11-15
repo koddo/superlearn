@@ -59,7 +59,7 @@ cards_html(Req, State = CardId) ->
                false -> false
            end,
     error_logger:info_msg("--- CardId: ~p~n", [CardId]),
-    {ok, Columns, _Rows = [CardRow|_]} = misc:with_connection(fun(C) -> 
+    {ok, Columns, _Rows = [CardRow]} = misc:with_connection(fun(C) -> 
                                                        epgsql:equery(C, "select * from cards as c where c.id = $1::uuid;", [CardId])
                                                end),
     %% error_logger:info_msg("--- Columns: ~p~n", [Columns]),
@@ -83,8 +83,20 @@ content_types_accepted(Req, State) ->
 cards_post(Req, State = create) ->
     {ok, BodyPost, Req1} = cowboy_req:read_urlencoded_body(Req),
     error_logger:info_msg("--- BodyPost: ~p~n", [BodyPost]),
-    {ok, Body} = card_created_html_dtl:render([{card_id, 123}]),
+    {_, Front} = lists:keyfind(<<"front">>, 1, BodyPost),
+    {_, Back} = lists:keyfind(<<"back">>, 1, BodyPost),
+    {_, Deck} = lists:keyfind(<<"deck">>, 1, BodyPost),
+    {_, Context} = lists:keyfind(<<"context">>, 1, BodyPost),
+    {ok, Columns, Rows = [CardRow]} = misc:with_connection(fun(C) -> 
+                                                       epgsql:equery(C, "select create_and_add_card(4, null, $1,  $2, now()::date, pack_progress_data(2.5, 0, 0, 0, false, false, 0), get_or_create_deck_id($3), get_or_create_context_id($4));", [Front, Back, Deck, Context])
+                                               end),
+    error_logger:info_msg("--- Columns: ~p~n", [Columns]),
+    error_logger:info_msg("--- Rows: ~p~n", [Rows]),
+    Names_of_columns = [C#column.name || C <- Columns],
+    R = handler_rest:map_names_of_columns_to_row_values(Names_of_columns, CardRow),
+    {ok, Body} = card_created_html_dtl:render([{card_id, maps:get(<<"create_and_add_card">>, R)}]),
     ReqN = cowboy_req:set_resp_body(Body, Req1),
     {{true, <<"/ht/cards/123">>}, ReqN, State}.
+
 
 
