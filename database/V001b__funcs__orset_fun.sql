@@ -491,7 +491,7 @@ $$ language plpgsql;
 
 
 
-create or replace function tmp_show_all(the_user_id integer) returns table(
+create or replace function show_all(the_user_id integer) returns table(
         card_id uuid,
         front text,
         back text,

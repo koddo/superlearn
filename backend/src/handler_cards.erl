@@ -41,7 +41,7 @@ content_types_provided(Req, State) ->
 
 cards_html(Req, State = index) ->
     {ok, Columns, Rows} = misc:with_connection(fun(C) -> 
-                                                        epgsql:equery(C, "select * from tmp_show_all(4);", [])
+                                                        epgsql:equery(C, "select * from show_all(4);", [])
                                                 end),
     %% error_logger:info_msg("--- Columns: ~p~n", [Columns]),
     %% error_logger:info_msg("--- Rows: ~p~n", [Rows]),
