@@ -13,6 +13,5 @@ content_types_provided(Req, State = {_Module, MediaType, _RenderArgs}) ->
      ], Req, State}.
 
 render_dtl(Req, State = {Module, _MediaType, RenderArgs}) ->
-    error_logger:info_msg("--- Columns: ~p~n", [Module]),
     {ok, Body} = apply(Module, render, [RenderArgs]),
     {Body, Req, State}.
