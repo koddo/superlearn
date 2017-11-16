@@ -6,18 +6,29 @@
     </head>
     <body>
         <h1>Card</h1>
-        {% autoescape off %}
-            <p>front: {{ front }}</p>
-            {% if show %}<p>back: {{ back }}</p>{% endif %}
-            <p>- due: {{ due }}</p>
-            <p>- decks: {{ decks_list }}</p>
-            <p>- contexts: {{ contexts_list }}</p>
-        {% endautoescape %}
+        <p>front:</p>
+        <div class="markdown">{{ front }}</div>
+        {% if show %}<p>back: {{ back }}</p>{% endif %}
+        <p>- due: {{ due }}</p>
+        <p>- decks: {{ decks_list }}</p>
+        <p>- contexts: {{ contexts_list }}</p>
         <!-- <input type="button" value="show" onclick="show_card_back()"> -->
         <p><a href="/ht/cards/{{ id }}?show">show</a></p>
         <input type="button" value="- again">
         <input type="button" value="- normal">
         <p><a href="/ht/cards">cards</a></p>
 
+        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
+        <script>
+         function decodeEntities(encodedString) {
+             var textArea = document.createElement('textarea');
+             textArea.innerHTML = encodedString;
+             return textArea.value;
+         }
+         var list = document.getElementsByClassName("markdown");
+         for (var i = 0; i < list.length; i++) {
+             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: true});
+         }
+        </script>
     </body>
 </html>

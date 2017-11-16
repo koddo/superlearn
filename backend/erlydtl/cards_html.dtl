@@ -8,16 +8,26 @@
     <body>
         <h1>Cards</h1>
 
-        {% autoescape off %}
-            <ul>
-                {% for c in rows|dictsort:"due" %}
-                    <li><a href="/ht/cards/{{ c.card_id }}">-></a> {{ c.front }}, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
-                {% endfor %}
-            </ul>
-        {% endautoescape %}
+        <ul>
+            {% for c in rows|dictsort:"due" %}
+                <li><a href="/ht/cards/{{ c.card_id }}">-></a> <div class="markdown">{{ c.front }}</div>, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
+            {% endfor %}
+        </ul>
 
         <p><a href="/ht/cards/add">add a card</a></p>
         <p><a href="/ht/decks">decks</a></p>
 
+        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
+        <script>
+         function decodeEntities(encodedString) {
+             var textArea = document.createElement('textarea');
+             textArea.innerHTML = encodedString;
+             return textArea.value;
+         }
+         var list = document.getElementsByClassName("markdown");
+         for (var i = 0; i < list.length; i++) {
+             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: true});
+         }
+        </script>
     </body>
 </html>

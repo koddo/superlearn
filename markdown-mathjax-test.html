@@ -56,13 +56,26 @@ price is \$100, not \$200
 
 `$ \ce{CO2 + C -> 2 CO} $` => $ \ce{CO2 + C -> 2 CO} $
 
+
+# double escaping problem
+
+This is run before passing to marked: <script>console.log("hello")</script>
+
+This is what data from server looks like, see page source:
+            
+&lt;script&gt;alert(&quot;hey&quot;)&lt;/script&gt;
+
+```
+&lt;script&gt;alert(&quot;hey&quot;)&lt;/script&gt;
+```
             
 </div>
 
-        
+
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script> -->
         <!-- https://github.com/chjj/marked/issues/722#issuecomment-190934293 -->
         <!-- https://github.com/Feder1co5oave/marktex/tree/production -->
+        <!-- this is a fork that works kinda ok with mathjax -->
         <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
         
         <script type="text/x-mathjax-config">
@@ -81,8 +94,14 @@ price is \$100, not \$200
 
 
         <script>
+         function decodeEntities(encodedString) {
+             var textArea = document.createElement('textarea');
+             textArea.innerHTML = encodedString;
+             return textArea.value;
+         }
          document.getElementById('content').innerHTML =
-             marked(document.getElementById('content').innerHTML);
+             marked(decodeEntities(document.getElementById('content').innerHTML), {sanitize: true});
+         console.log(decodeEntities(document.getElementById('content').innerHTML));
         </script>
     </body>
 </html>

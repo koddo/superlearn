@@ -36,3 +36,13 @@ TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing
 <https://www.sitepoint.com/best-practices-rest-api-scratch-introduction/>
 <http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api>
 <https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/>
+
+
+# SECURITY -- escaping html
+
+We now rely on `sanitaize` option of `marked()` after decoding html entities from user data.
+
+<https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery/1395954#1395954>
+TODO: use HTML entity encoder/decoder lib instead of relying on textarea: <https://github.com/mathiasbynens/he>
+
+
