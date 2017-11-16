@@ -7,8 +7,8 @@
     <body>
         <h1>Card</h1>
         <p>front:</p>
-        <div class="markdown">{{ front }}</div>
-        {% if show %}<p>back: {{ back }}</p>{% endif %}
+        <div class="markdown" style="background: #eee;">{{ front }}</div>
+        {% if show %}<div class="markdown" style="background: #eee;">{{ back }}</div>{% endif %}
         <p>- due: {{ due }}</p>
         <p>- decks: {{ decks_list }}</p>
         <p>- contexts: {{ contexts_list }}</p>

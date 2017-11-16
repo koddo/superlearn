@@ -10,7 +10,11 @@
 
         <ul>
             {% for c in rows|dictsort:"due" %}
-                <li><a href="/ht/cards/{{ c.card_id }}">-></a> <div class="markdown">{{ c.front }}</div>, decks:[{{ c.decks_list }}], due: {{ c.due }}</li>
+                <li>
+                    <div class="markdown" style="background: #eee;">{{ c.front }}</div>
+                    <a href="/ht/cards/{{ c.card_id }}">-></a>
+                    due: {{ c.due }}, decks: [{{ c.decks_list }}], contexts: [{{ c.contexts_list }}]
+                </li>
             {% endfor %}
         </ul>
 
