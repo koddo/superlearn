@@ -498,7 +498,7 @@ create or replace function show_all(the_user_id integer) returns table(
         decks_list text[],
         contexts_list text[],
         added_at timestamptz,        
-        due date,
+        due_date date,
         easiness_factor real,
         prev_interval integer,
         prev_response integer,
@@ -519,6 +519,39 @@ select
 from get_cards_orset(the_user_id) as s 
     join cards as c on s.card_id = c.id
 where true;
+$$ language sql;
+
+
+
+create or replace function show_card(the_user_id integer, the_card_id uuid) returns table(
+        card_id uuid,
+        front text,
+        back text,
+        decks_list text[],
+        contexts_list text[],
+        added_at timestamptz,        
+        due_date date,
+        easiness_factor real,
+        prev_interval integer,
+        prev_response integer,
+        num_of_lapses integer,
+        prev_response_was_made_in_mobile_app boolean,
+        more_than_one_removed_at boolean,
+        prev_seconds_spent_on_card integer
+        ) as $$
+select
+    c.id,
+    c.front,
+    c.back,
+    array(select get_deck_name(deck_id)        from get_card_decks(the_user_id, c.id)),
+    array(select get_context_url(context_id)   from get_card_contexts(the_user_id, c.id)),
+    s.added_at,
+    s.due_date,
+    (unpack_progress_data(s.packed_progress_data)).*
+-- from get_cards_orset(the_user_id) as s 
+--     join cards as c on s.card_id = c.id
+from cards as c join cards_orset as s on c.id = s.card_id
+where c.id = the_card_id;
 $$ language sql;
 
 

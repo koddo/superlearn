@@ -7,13 +7,18 @@
     <body>
         <h1>Card</h1>
         <p>front:</p>
-        <div class="markdown" style="background: #eee;">{{ front }}</div>
-        {% if show %}<div class="markdown" style="background: #eee;">{{ back }}</div>{% endif %}
-        <p>- due: {{ due }}</p>
-        <p>- decks: {{ decks_list }}</p>
-        <p>- contexts: {{ contexts_list }}</p>
+        <div class="markdown" style="background: #eee;">{{ c.front }}</div>
+        {% if show %}<div class="markdown" style="background: #eee;">{{ c.back }}</div>{% endif %}
+        <p>- due_date: {{ c.due_date }}</p>
+        <p>- prev_interval: {{ c.prev_interval }}</p>
+        <p>- prev_response: {{ c.prev_response }}</p>
+        <p>- num_of_lapses: {{ c.num_of_lapses }}</p>
+        <p>- easiness_factor: {{ c.easiness_factor }}</p>
+        <p>- decks: [{{ c.decks_list }}]</p>
+        <p>- contexts: [{{ c.contexts_list }}]</p>
+        <p>{{ c|pprint }}</p>
         <!-- <input type="button" value="show" onclick="show_card_back()"> -->
-        <p><a href="/ht/cards/{{ id }}?show">show</a></p>
+        <p><a href="/ht/cards/{{ c.card_id }}?show">show</a></p>
         <input type="button" value="- again">
         <input type="button" value="- normal">
         <p><a href="/ht/cards">cards</a></p>
