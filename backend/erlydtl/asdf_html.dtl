@@ -8,18 +8,30 @@
     <body>
         <h1>Asdf -- {{ deckname }}</h1>
 
-        {% autoescape off %}
-            <ul>
-                {% for c in lst %}
-                    <li><a href="/ht/cards/{{ c.id }}">link</a> front: {{ c.front }}</li>
-                {% endfor %}
-            </ul>
-        {% endautoescape %}
-
+        <ul>
+            {% for c in lst %}
+                <li>
+                    <div class="markdown" style="background: #eee;">{{ c.front }}</div>
+                    <a href="/ht/cards/{{ c.id }}">-&gt;</a>
+                </li>
+            {% endfor %}
+        </ul>
         
 
         <a href="/ht/decks">decks</a>
         <a href="/ht/cards/add">add a card</a>
 
+        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
+        <script>
+         function decodeEntities(encodedString) {
+             var textArea = document.createElement('textarea');
+             textArea.innerHTML = encodedString;
+             return textArea.value;
+         }
+         var list = document.getElementsByClassName("markdown");
+         for (var i = 0; i < list.length; i++) {
+             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: true});
+         }
+        </script>
     </body>
 </html>

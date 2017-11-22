@@ -12,7 +12,7 @@
             {% for c in rows|dictsort:"due_date" %}
                 <li>
                     <div class="markdown" style="background: #eee;">{{ c.front }}</div>
-                    <a href="/ht/cards/{{ c.card_id }}">-></a>
+                    <a href="/ht/cards/{{ c.card_id }}">-&gt;</a>
                     due_date: {{ c.due_date }}, decks: [{{ c.decks_list }}], contexts: [{{ c.contexts_list }}]
                 </li>
             {% endfor %}
