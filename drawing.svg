@@ -119,7 +119,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -139,12 +139,12 @@
          x="116.19858"
          y="152.86067">cards list</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:1.10000002;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:1.28809083;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
        id="rect4807"
-       width="150.43567"
-       height="162.88551"
-       x="98.561295"
-       y="123.81104" />
+       width="176.18477"
+       height="190.70958"
+       x="72.718155"
+       y="95.892929" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -157,12 +157,12 @@
          x="443.00708"
          y="160.12309">card</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:2.24361181;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:2.63860273;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
        id="rect4821"
-       width="299.72772"
-       height="219.84119"
-       x="421.79166"
-       y="136.83269" />
+       width="339.79474"
+       height="268.2081"
+       x="381.52716"
+       y="88.26828" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -268,32 +268,32 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="436.78217"
-       y="450.61954"
+       x="467.9068"
+       y="489.00656"
        id="text5833"
        sodipodi:linespacing="130%"><tspan
          sodipodi:role="line"
          id="tspan5835"
-         x="436.78217"
-         y="450.61954">deck</tspan></text>
+         x="467.9068"
+         y="489.00656">deck</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="461.68185"
-       y="477.59424"
+       x="492.80649"
+       y="515.98126"
        id="text5837"
        sodipodi:linespacing="130%"><tspan
          sodipodi:role="line"
          id="tspan5839"
-         x="461.68185"
-         y="477.59424">Capitals</tspan></text>
+         x="492.80649"
+         y="515.98126">Capitals</tspan></text>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:1.10000002;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#cccccc;stroke-width:1.41489935;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:10;stroke-opacity:1"
        id="rect5863"
-       width="217.87234"
-       height="158.73557"
-       x="410.84497"
-       y="418.45743" />
+       width="269.43182"
+       height="212.37001"
+       x="390.25269"
+       y="403.05255" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5873)"
        d="m 489.69402,253.49696 c 0,0 -31.77626,53.14195 -35.27457,82.99898 -3.83744,32.75144 16.5998,97.52381 16.5998,97.52381"
@@ -303,17 +303,17 @@
     <text
        sodipodi:linespacing="130%"
        id="text5913"
-       y="506.64386"
-       x="484.50659"
+       y="545.03088"
+       x="515.63123"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         y="506.64386"
-         x="484.50659"
+         y="545.03088"
+         x="515.63123"
          id="tspan5915"
          sodipodi:role="line">Madagascar</tspan><tspan
          id="tspan5917"
-         y="524.84387"
-         x="484.50659"
+         y="563.2309"
+         x="515.63123"
          sodipodi:role="line">New Zealand</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker5927)"
@@ -343,5 +343,38 @@
          id="tspan5979"
          x="458.11954"
          y="280.32169" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="91.298889"
+       y="114.47365"
+       id="text4191"
+       sodipodi:linespacing="130%"><tspan
+         sodipodi:role="line"
+         id="tspan4193"
+         x="91.298889"
+         y="114.47365">/cards</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="402.5451"
+       y="106.17375"
+       id="text4195"
+       sodipodi:linespacing="130%"><tspan
+         sodipodi:role="line"
+         x="402.5451"
+         y="106.17375"
+         id="tspan4199">/cards/5a32..81c5</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:129.99999523%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="414.99493"
+       y="438.16971"
+       id="text4203"
+       sodipodi:linespacing="130%"><tspan
+         sodipodi:role="line"
+         id="tspan4205"
+         x="414.99493"
+         y="438.16971">/deck/capitals</tspan></text>
   </g>
 </svg>
