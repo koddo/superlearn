@@ -19,8 +19,10 @@
         <p>{{ c|pprint }}</p>
         <!-- <input type="button" value="show" onclick="show_card_back()"> -->
         <p><a href="/ht/cards/{{ c.card_id }}?show">show</a></p>
-        <input type="button" value="- again">
-        <input type="button" value="- normal">
+        <form method="post">
+            <input type="submit" value="- again" formaction="/ht/review/{{ c.card_id }}/again">
+            <input type="submit" value="- normal" formaction="/ht/review/{{ c.card_id }}/normal">
+        </form>
         <p><a href="/ht/cards">cards</a></p>
 
         <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
