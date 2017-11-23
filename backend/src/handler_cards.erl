@@ -59,12 +59,12 @@ cards_html(Req, State = CardId) ->
                false -> false
            end,
     error_logger:info_msg("--- CardId: ~p~n", [CardId]),
-    {ok, Columns, _Rows = [CardRow]} = misc:with_connection(fun(C) -> 
+    {ok, Columns, Rows = [CardRow]} = misc:with_connection(fun(C) -> 
                                                                     %% epgsql:equery(C, "select *, (unpack_progress_data(s.packed_progress_data)).* from cards as c join cards_orset as s on c.id = s.card_id where c.id = $1::uuid;", [CardId])
                                                                     epgsql:equery(C, "select * from show_card(4, $1::uuid);", [CardId])
                                                end),
-    %% error_logger:info_msg("--- Columns: ~p~n", [Columns]),
-    %% error_logger:info_msg("--- Rows: ~p~n", [Rows]),
+    error_logger:info_msg("--- Columns: ~p~n", [Columns]),
+    error_logger:info_msg("--- Rows: ~p~n", [Rows]),
     Names_of_columns = [C#column.name || C <- Columns],
     Card = handler_rest:map_names_of_columns_to_row_values(Names_of_columns, CardRow),
     error_logger:info_msg("--- Card: ~p~n", [Card]),

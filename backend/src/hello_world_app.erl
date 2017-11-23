@@ -37,8 +37,8 @@ dispatch() ->
                                   %% {"/api/v0/:asdf/:fdsa", handler_rest, []},
                                   {"/ht/cards/add", handler_render_dtl, {cards_add_html_dtl, <<"text/html">>, #{}}},
                                   {"/ht/cards/[:card_id]", handler_cards, []},
+                                  {"/ht/review/:card_id/:response", handler_card_review, []},
                                   {"/ht/decks", handler_render_dtl, {decks_html_dtl, <<"text/html">>, #{}}},
-                                  {"/ht/review/:card_id/:response", handler_render_dtl, {card_review_html_dtl, <<"text/html">>, #{}}},
                                   {"/ht/asdf", handler_asdf, []}
                                   %% {"/ht/cards/:card_id", handler_render_dtl, {card_html_dtl, <<"text/html">>, #{front => <<"what">>, back => <<"ever">>, due => {{2017,10,24},{0,0,0}}}}},
                                   %% {"/ht/cards", handler_cards, []}

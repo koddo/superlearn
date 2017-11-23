@@ -28,7 +28,7 @@ render_dtl(Req, State = {Module, _MediaType, RenderArgs}) ->
     {Body, Req, State}.
 
 handle_post(Req, State) ->
-	{ok, BodyPost, Req1} = cowboy_req:read_urlencoded_body(Req),
-    error_logger:info_msg("--- render_dtl post~n--- Bindings: ~p~n--- BodyPost: ~p~n", [cowboy_req:bindings(Req1), BodyPost]),
-    {true, Req1, State}.
+	{ok, BodyPost, ReqN} = cowboy_req:read_urlencoded_body(Req),
+    error_logger:info_msg("--- render_dtl post~n--- Bindings: ~p~n--- BodyPost: ~p~n", [cowboy_req:bindings(ReqN), BodyPost]),
+    {true, ReqN, State}.
 

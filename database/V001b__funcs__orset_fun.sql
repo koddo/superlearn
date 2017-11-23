@@ -414,6 +414,37 @@ $$ language sql;
 
 
 
+create or replace function response_string_to_integer(the_response text) returns integer as $$
+declare
+    r integer;
+begin
+case the_response
+    when 'again'      then r := 0;
+    when 'hard'       then r := 3;
+    when 'normal'     then r := 4;
+    when 'easy'       then r := 5;
+end case;
+return r;
+end;
+$$ language plpgsql;
+
+
+
+create or replace function response_integer_to_string(the_response integer) returns text as $$
+declare
+    r text;
+begin
+case the_response
+    when 0 then r := 'again';
+    when 3 then r := 'hard';
+    when 4 then r := 'normal';
+    when 5 then r := 'easy';
+end case;
+return r;
+end;
+$$ language plpgsql;
+
+
 
 create or replace function review_card(the_user_id integer, the_card_id uuid, the_response integer) returns void as $$
 declare
@@ -439,7 +470,7 @@ select * into unpacked from unpack_progress_data(the_packed_progress_data);
     new_num_of_lapses := unpacked.num_of_lapses;
 
     correction := 0;
-    if unpacked.prev_interval > 0 then
+    if unpacked.prev_interval > 1 then   -- easiness factor isn't touched when you forget a card on first or second review
         case the_response
         when 0 then correction := -0.8;
         when 1 then correction := -0.54;
@@ -551,7 +582,8 @@ select
 -- from get_cards_orset(the_user_id) as s 
 --     join cards as c on s.card_id = c.id
 from cards as c join cards_orset as s on c.id = s.card_id
-where c.id = the_card_id;
+where c.id = the_card_id
+    and s.removed_at is null;
 $$ language sql;
 
 
