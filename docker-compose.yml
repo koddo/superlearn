@@ -50,7 +50,7 @@ services:
     working_dir: /home/theuser/theproject
     entrypoint:  /home/theuser/theproject/docker-entrypoint-backend.sh
     ports:
-      - "8080:8080"
+      - "80:8080"
     logging: &logging_anchor
       options:
         max-size: "100k"
