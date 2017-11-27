@@ -1,9 +1,11 @@
 
+# run locally checklist
 
-docker volume create superlearn_pgdata
+- run superlearn-wiki
+- database restore
+- docker-compose up -d
 
 
-TODO: <https://docs.docker.com/compose/compose-file/#variable-substitution> in .env for external ports
 
 
 
@@ -29,6 +31,9 @@ TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing
 # misc
 
 <https://developer.yahoo.com/performance/rules.html>
+
+
+TODO: <https://docs.docker.com/compose/compose-file/#variable-substitution> in .env for external ports
 
 # sort
 
