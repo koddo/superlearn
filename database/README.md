@@ -74,6 +74,33 @@ TODO: save device fingerprint when adding or removing a card, to let a user get 
 TODO: check if a user has a card when she tries to create one
 TODO: check for uuid collisions when creating and adding cards 
 
+
+
+create unique index cards_content_by_user_unique_idx on cards(created_by, md5(lower(front)), md5(lower(back)));
+TODO: should we not allow users to have duplicates? we now check if has_card_with_front()
+
+in remove_card:
+TODO: should we also remove card from decks and clear its contexts? Right now we don't.
+
+in remove_card, remove_card_from_all_decks, remove_all_contexts_from_card, remove_card_from_deck, remove_context_from_card:
+TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
+
+in edit_card_content, edit_card_progress:
+TODO: transaction?
+
+in create_and_add_card:
+TODO: in create_and_add_card() make sure cards.created_at = cards_orset.added_at
+
+in review_card:
+TODO: throw exception if there are two entries for a card with different progress, ask user which one to use
+
+in pack_progress_data:
+-- if easiness_factor < 0 or easiness_factor > ??? throw exception;
+-- if prev_interval < 0 throw exception;
+-- if prev_response < 0 or prev_response > 7 throw exception;
+-- if num_of_fails < 0 or num_of_fails > 15 throw exception;
+
+
 ```
 select create_and_add_card(4, null, 'pi',  '3.14', now()::date, pack_progress_data(2.5, 0, 0, 0, false, false, 0), get_or_create_deck_id('numbers'), get_or_create_context_id('https://en.wikipedia.org/wiki/Pi'));
 select create_and_add_card(4, null, 'exp', '2.7',  now()::date, pack_progress_data(2.5, 0, 0, 0, false, false, 0), get_or_create_deck_id('numbers'), get_or_create_context_id('https://en.wikipedia.org/wiki/E_(mathematical_constant)'));

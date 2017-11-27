@@ -29,18 +29,15 @@ $$ language plpgsql;
 
 create or replace function remove_card(the_user_id integer, the_card_id uuid) returns void as $$
 begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
 update cards_orset set removed_at = now()
     where user_id = the_user_id and card_id = the_card_id and removed_at is null;
 end;
 $$ language plpgsql;
--- TODO: should we also remove card from decks and clear its contexts? Right now we don't.
 
 
 
 create or replace function remove_card_from_all_decks(the_user_id integer, the_card_id uuid) returns void as $$
 begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
 update card_decks_orset set removed_at = now()
 where user_id = the_user_id
     and card_id = the_card_id
@@ -52,7 +49,6 @@ $$ language plpgsql;
 
 create or replace function remove_all_contexts_from_card(the_user_id integer, the_card_id uuid) returns void as $$
 begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
 update card_contexts_orset as s set removed_at = now()
 where s.user_id = the_user_id
     and s.card_id = the_card_id
@@ -101,7 +97,6 @@ create or replace function edit_card_content(the_user_id integer, the_card_id uu
 declare
    new_card_id uuid;
 begin
--- TODO: transaction?
 select * into new_card_id from create_card(the_user_id, the_card_id, new_front, new_back);
 perform add_card(the_user_id, new_card_id, s.due_date, s.packed_progress_data)
     from cards_orset as s
@@ -129,7 +124,6 @@ $$ language plpgsql;
 
 create or replace function edit_card_progress(the_user_id integer, the_card_id uuid, new_due_date date, new_packed_progress_data bigint) returns void as $$
 begin
--- TODO: transaction?
 perform remove_card(the_user_id, the_card_id);
 perform add_card(the_user_id, the_card_id, new_due_date, new_packed_progress_data);
 end;
@@ -169,10 +163,6 @@ declare
     prs      bit(15)  := prev_seconds_spent_on_card::bit(15);
     padding  bit(12)  := 0::bit(12);
 begin
--- if easiness_factor < 0 or easiness_factor > ??? throw exception;
--- if prev_interval < 0 throw exception;
--- if prev_response < 0 or prev_response > 7 throw exception;
--- if num_of_fails < 0 or num_of_fails > 15 throw exception;
 return (ef || pri || prr || nol || mobile || multrem || prs || padding)::bit(64)::bigint;
 end;
 $$ language plpgsql;
@@ -188,9 +178,7 @@ create or replace function unpack_progress_data(
         out more_than_one_removed_at boolean,
         out prev_seconds_spent_on_card integer
         )
-    -- returns record
     as $$
--- TODO: why out vars and returns record simultaneously?
 declare
     b        bit(64)  := packed_bigint::bit(64);
     ef       bit(12)  := ( b        )::bit(12);
@@ -279,7 +267,6 @@ where s.user_id = the_user_id
     and s.removed_at is null;
 end;
 $$ language plpgsql;
--- select * from get_cards_in_deck(4, '4db66f7c-cee0-4de3-84c7-fdd28b030a82'::uuid) as d join cards as c on d.card_id = c.id;
 
 
 create or replace function add_card_to_deck(the_user_id integer, the_card_id uuid, the_deck_id uuid) returns void as $$
@@ -295,7 +282,6 @@ $$ language plpgsql;
 
 create or replace function remove_card_from_deck(the_user_id integer, the_card_id uuid, the_deck_id uuid) returns void as $$
 begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
 update card_decks_orset as s set removed_at = now()
 where s.user_id = the_user_id
     and s.card_id = the_card_id
@@ -370,7 +356,6 @@ $$ language plpgsql;
 
 create or replace function remove_context_from_card(the_user_id integer, the_card_id uuid, the_context_id uuid) returns void as $$
 begin
--- TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
 update card_contexts_orset as s set removed_at = now()
 where s.user_id = the_user_id
     and s.card_id = the_card_id
@@ -389,7 +374,6 @@ create or replace function create_and_add_card(the_user_id integer, the_prev_rev
 declare
     new_card_id uuid;
 begin
--- TODO: in create_and_add_card() make sure cards.created_at = cards_orset.added_at
 if has_card_with_front(the_user_id, new_front) then
     raise exception 'user_id=% already has card with front=%', the_user_id, new_front;
 end if;
@@ -459,7 +443,6 @@ declare
     correction real;
     new_packed_progress_data bigint;
 begin
--- TODO: throw exception if there are two entries for a card with different progress, ask user which one to use
 select due_date, packed_progress_data into the_due_date, the_packed_progress_data
 from cards_orset as s
 where s.user_id = the_user_id
@@ -579,8 +562,6 @@ select
     s.added_at,
     s.due_date,
     (unpack_progress_data(s.packed_progress_data)).*
--- from get_cards_orset(the_user_id) as s 
---     join cards as c on s.card_id = c.id
 from cards as c join cards_orset as s on c.id = s.card_id
 where c.id = the_card_id
     and s.removed_at is null;
