@@ -80,7 +80,7 @@ services:
       - PGDATA=/var/lib/postgresql/data   # this is the default value
     volumes:
       - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
-      # - superlearn_pgdata:/var/lib/postgresql/data
+      - superlearn_pgdata:/var/lib/postgresql/data
       # we can't share files here directly, because at the moment of writing docker doesn't allow to map uids in volumes, so we simply copy these files using a copy.sh script
     logging:
       <<: *logging_anchor
