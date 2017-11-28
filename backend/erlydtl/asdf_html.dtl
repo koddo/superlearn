@@ -11,8 +11,7 @@
         <ul>
             {% for c in lst %}
                 <li>
-                    <div class="markdown" style="background: #eee;">{{ c.front }}</div>
-                    <a href="/ht/cards/{{ c.id }}">-&gt;</a>
+                    <a href="/ht/cards/{{ c.id }}">-&gt;</a><div class="markdown" style="background: #eee; display: inline-block;">{{ c.front }}</div>
                 </li>
             {% endfor %}
         </ul>

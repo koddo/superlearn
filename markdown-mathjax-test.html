@@ -7,6 +7,17 @@
     <body>
         <div id="content">
 
+
+# preview
+
+`x < y() <= z` versus `x < y() and y() <= z`
+
+those are pretty much equivalent
+
+except `y()` is evaluated only once
+
+(in both cases `z` is not evaluated at all when `x < y()` is found to be false)
+
 # header
 ## subheader
 
@@ -68,7 +79,8 @@ This is what data from server looks like, see page source:
 ```
 &lt;script&gt;alert(&quot;hey&quot;)&lt;/script&gt;
 ```
-            
+
+
 </div>
 
 
