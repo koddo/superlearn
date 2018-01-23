@@ -51,3 +51,10 @@ We now rely on `sanitaize` option of `marked()` after decoding html entities fro
 TODO: use HTML entity encoder/decoder lib instead of relying on textarea: <https://github.com/mathiasbynens/he>
 
 
+# backup
+
+```
+$ docker-compose stop database
+$ ./database-backup.sh
+$ docker-compose up -d
+```
