@@ -40,7 +40,8 @@ dispatch() ->
                                   {"/ht/review/:card_id/:response", handler_card_review, []},
                                   {"/ht/decks", handler_render_dtl, {decks_html_dtl, <<"text/html">>, #{}}},
                                   {"/ht/asdf", handler_asdf, []},
-                                  {"/ht/asdf2", handler_asdf2, []}
+                                  {"/ht/asdf2", handler_asdf2, []},
+                                  {"/ht/remove/:card_id", handler_remove_card, []}
                                   %% {"/ht/cards/:card_id", handler_render_dtl, {card_html_dtl, <<"text/html">>, #{front => <<"what">>, back => <<"ever">>, due => {{2017,10,24},{0,0,0}}}}},
                                   %% {"/ht/cards", handler_cards, []}
                                  ]}

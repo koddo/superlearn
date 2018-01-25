@@ -58,3 +58,20 @@ $ docker-compose stop database
 $ ./database-backup.sh
 $ docker-compose up -d
 ```
+
+```
+$ docker-compose stop
+$ docker volume rm superlearn_pgdata
+$ docker volume create --name=superlearn_pgdata
+$ ./database-restore.sh superlearn--2018-01-25--13-21-27--pgdata.tgz
+$ docker-compose up -d
+```
+
+When unable to remove a volume:
+```
+$ docker volume rm superlearn_pgdata
+Error response from daemon: unable to remove volume: remove superlearn_pgdata: volume is in use - [containter_id, another_containter_id]
+$ docker rm containter_id
+$ docker rm another_containter_id
+$ docker volume rm superlearn_pgdata
+```

@@ -3,7 +3,6 @@
 -- TODO: check for uuid collisions everywhere
 
 !!! never write to-do inside schema migration files, they are meant to be final and unchangeable !!!
-
 !!! write them here !!!
 
 TODO: create a git hook which notifies if migrations have changed 
@@ -80,7 +79,7 @@ create unique index cards_content_by_user_unique_idx on cards(created_by, md5(lo
 TODO: should we not allow users to have duplicates? we now check if has_card_with_front()
 
 in remove_card:
-TODO: should we also remove card from decks and clear its contexts? Right now we don't.
+TODO: rename remove_card() to remove_card_only_from_orset()
 
 in remove_card, remove_card_from_all_decks, remove_all_contexts_from_card, remove_card_from_deck, remove_context_from_card:
 TODO: when removed_at is not null, set more_than_one_removed_at and add additional removed_at
