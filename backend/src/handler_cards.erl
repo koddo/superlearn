@@ -95,9 +95,13 @@ cards_post(Req, State = create) ->
     error_logger:info_msg("--- Rows: ~p~n", [Rows]),
     Names_of_columns = [C#column.name || C <- Columns],
     R = handler_rest:map_names_of_columns_to_row_values(Names_of_columns, CardRow),
-    {ok, Body} = card_created_html_dtl:render([{card_id, maps:get(<<"create_and_add_card">>, R)}]),
+    CardId = maps:get(<<"create_and_add_card">>, R),
+    {ok, Body} = card_created_html_dtl:render([{card_id, CardId}]),
     ReqN = cowboy_req:set_resp_body(Body, Req1),
-    {{true, <<"/ht/cards/123">>}, ReqN, State}.
+    {{true, [<<"/ht/cards/">>, CardId]}, ReqN, State}.
+
+
+
 
 
 
