@@ -27,7 +27,7 @@ cards_html(Req, State) ->
     error_logger:info_msg("--- DeckName: ~p~n", [DeckName]),
 
     {ok, Columns, Rows} = misc:with_connection(fun(C) -> 
-                                                       epgsql:equery(C, "select * from decks as d join card_decks_orset as s on d.id = s.deck_id join cards as c on c.id = s.card_id where d.name = $1;", [DeckName])
+                                                       epgsql:equery(C, "select * from decks as d join card_decks_orset as s on d.id = s.deck_id join cards as c on c.id = s.card_id where d.name = $1 and s.removed_at is null;", [DeckName])
                                                end),
     error_logger:info_msg("--- Columns: ~p~n", [Columns]),
     error_logger:info_msg("--- Rows: ~p~n", [Rows]),

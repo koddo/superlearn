@@ -154,12 +154,6 @@ select remove_card_from_deck(4, c.id, ''::uuid),
             add_card_to_deck(4, c.id, ''::uuid) 
 from cards as c 
 where c.id = any(array['', '']::uuid[]);
-    
-
-
-
-
-
 
 
 
