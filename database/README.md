@@ -146,14 +146,14 @@ get_or_create_context_id(''));
 
 
 
-
-
-select get_or_create_deck_id('old_deck');
-select get_or_create_deck_id('new_deck');
-select remove_card_from_deck(4, c.id, ''::uuid), 
-            add_card_to_deck(4, c.id, ''::uuid) 
+select remove_card_from_deck(4, c.id, get_or_create_deck_id('')), 
+            add_card_to_deck(4, c.id, get_or_create_deck_id('')) 
 from cards as c 
-where c.id = any(array['', '']::uuid[]);
+where c.id = any(array['']::uuid[]);
+
+
+
+
 
 
 

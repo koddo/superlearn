@@ -30,7 +30,7 @@ dispatch() ->
     cowboy_router:compile([
                            {'_', [
                                   %% {"/",             cowboy_static, {priv_file, hello_world, "index.html", [{mimetypes, cow_mimetypes, all}]}},
-                                  %% {"/js/[...]",     cowboy_static, {priv_dir,  hello_world, "js",         [{mimetypes, cow_mimetypes, all}]}},
+                                  {"/js/[...]",     cowboy_static, {priv_dir,  hello_world, "js",         [{mimetypes, cow_mimetypes, all}]}},
                                   %% {"/css/[...]",    cowboy_static, {priv_dir,  hello_world, "css",        [{mimetypes, cow_mimetypes, all}]}},
                                   %% {"/api/v0/", handler_rest, []},
                                   %% {"/api/v0/:asdf", handler_rest, []},

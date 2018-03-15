@@ -59,3 +59,9 @@ hello_world_app:router_live_update().
 ```
 
 <http://superlearn.it:8080/ht/asdf?deckname=whatever&c=d686d189-05de-49c3-bf86-752e68411897&c=5a3256db-1cba-41b4-a497-9eb8675181c5>
+
+# erlang rest handlers
+
+<https://raw.githubusercontent.com/ninenines/cowboy/master/examples/rest_pastebin/src/toppage_handler.erl>
+<https://ninenines.eu/docs/en/cowboy/2.2/guide/rest_handlers/>
+<https://ninenines.eu/docs/en/cowboy/2.2/guide/rest_flowcharts/>

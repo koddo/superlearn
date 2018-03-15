@@ -32,7 +32,6 @@ TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing
 
 <https://developer.yahoo.com/performance/rules.html>
 
-
 TODO: <https://docs.docker.com/compose/compose-file/#variable-substitution> in .env for external ports
 
 # sort
@@ -42,6 +41,7 @@ TODO: <https://docs.docker.com/compose/compose-file/#variable-substitution> in .
 <http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api>
 <https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/>
 
+<https://www.reddit.com/r/Anki/comments/7p12ej/experimental_addon_to_adjust_individual_card_ease/>
 
 # SECURITY -- escaping html
 

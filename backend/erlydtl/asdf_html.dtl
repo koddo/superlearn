@@ -3,10 +3,11 @@
     <head>
         <meta charset="utf-8">
         <title>hello</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.contentWindow.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.contentWindow.min.js"></script> -->
+        <script src="/js/iframeResizer.contentWindow.min.js"></script>
     </head>
     <body>
-        <h1>Asdf -- {{ deckname }}</h1>
+        <h1>{{ deckname }}</h1>
 
         <ul>
             {% for c in lst %}
@@ -20,7 +21,8 @@
         <a href="/ht/decks">decks</a>
         <a href="/ht/cards/add">add a card</a>
 
-        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
+        <!-- <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script> -->
+        <script src="/js/marked.js"></script>
         <script>
          function decodeEntities(encodedString) {
              var textArea = document.createElement('textarea');
