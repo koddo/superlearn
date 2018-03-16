@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>hello</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.contentWindow.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.15/iframeResizer.contentWindow.min.js"></script> -->
+        <script src="/js/iframeResizer.contentWindow.min.js"></script>
     </head>
     <body>
         <h1>Cards</h1>
