@@ -4,9 +4,7 @@
 - run superlearn-wiki
 - database restore
 - docker-compose up -d
-
-
-
+- sudo service fail2ban restart
 
 
 
@@ -74,4 +72,13 @@ Error response from daemon: unable to remove volume: remove superlearn_pgdata: v
 $ docker rm containter_id
 $ docker rm another_containter_id
 $ docker volume rm superlearn_pgdata
+```
+
+# fail2ban
+
+```
+sudo service fail2ban restart
+sudo fail2ban-client status basic-auth
+sudo iptables --list-rules
+sudo tail -f /var/log/fail2ban.log
 ```

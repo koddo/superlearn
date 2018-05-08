@@ -56,17 +56,19 @@ services:
         max-size: "100k"
         max-file: "2"
 
-  # nginx:
-  #   image: nginx
-  #   ports:
-  #       - "8443:8443"
-  #   volumes:
-  #       - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
-  #       - ./nginx/server.crt:/etc/nginx/server.crt:ro
-  #       - ./nginx/server.key:/etc/nginx/server.key:ro
-  #       - ./client-web/resources/public:/var/www:ro
-  #   logging:
-  #     <<: *logging_anchor
+  nginx:
+    image: koddo/nginx
+    ports:
+        - "8443:8443"
+    volumes:
+        - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
+        - ./nginx/server.crt:/etc/nginx/server.crt:ro
+        - ./nginx/server.key:/etc/nginx/server.key:ro
+        - ../superlearn.secrets/htpasswd:/etc/apache2/.htpasswd:ro
+        - ./nginx-logs-fail2ban:/var/log/nginx
+        # - ./client-web/resources/public:/var/www:ro
+    logging:
+      <<: *logging_anchor
 
 ## -----------------
 

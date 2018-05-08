@@ -154,10 +154,6 @@ where c.id = any(array['']::uuid[]);
 
 
 
-
-
-
-
 ```
 
 
