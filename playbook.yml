@@ -1,0 +1,11 @@
+---
+- name: Install docker and some additional packages.
+  hosts: all
+  remote_user: root
+  # become: true
+
+  roles:
+    - role: angstwad.docker_ubuntu
+      docker_group_members: ["vagrant"]
+      # kernel_update_and_reboot_permitted: yes
+      
