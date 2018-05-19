@@ -4,10 +4,30 @@
   remote_user: root
   # become: true
 
+  pre_tasks:
+
+    - name: add the deploy user
+      user:
+        name: deploy
+        shell: /bin/bash
+  
+    - name: create the log file for fail2ban to watch
+      become: yes
+      become_user: deploy
+      command: "{{ item }}"
+      args:
+        creates: superlearn.nginx-logs-fail2ban/error.log
+      loop:
+         - mkdir -p superlearn.nginx-logs-fail2ban
+         - mkdir -p  superlearn.secrets
+         - chmod 700 superlearn.secrets
+         - touch superlearn.nginx-logs-fail2ban/error.log
+
+        
   roles:
     
     - role: angstwad.docker_ubuntu
-      docker_group_members: ["admin"]
+      docker_group_members: ["deploy"]
       # kernel_update_and_reboot_permitted: yes
       
     - role: tersmitten.fail2ban      # https://galaxy.ansible.com/tersmitten/fail2ban/
@@ -15,54 +35,75 @@
         - name: basic-auth
           port: 443
           filter: nginx-http-auth
-          logpath: /home/admin/superlearn.it/nginx-logs-fail2ban/*.log
+          logpath: /home/deploy/superlearn.nginx-logs-fail2ban/*.log
           maxretry: 3
           bantime: 60
           chain: FORWARD
-          enabled: false       # we start it later, when the logpath actually exists
           # the chain is INPUT by default, but it fails to ban access to docker containers: http://www.sk4.co.uk/blog/2017/08/docker-and-fail2ban
           # I'm not sure it's the best way to do this, but it's the shortest path; we could use this: https://docs.docker.com/network/iptables/#add-iptables-policies-before-dockers-rules, http://blog.amigapallo.org/2016/04/14/configuring-fail2ban-and-iptables-to-get-along-with-docker/
 
 
   tasks:
     
-    - name: Make sure we have a 'wheel' group
-      group:
-        name: wheel
-        state: present
-
-    - name: Allow 'wheel' group to have passwordless sudo
-      lineinfile:
-        dest: /etc/sudoers
-        state: present
-        regexp: '^%wheel'
-        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
-        validate: 'visudo -cf %s'
-
-    - name: add the admin user
-      user:
-        name: admin
-        groups: wheel
-        append: yes
-        shell: /bin/bash
-      # notify:
-      #   - enable ssh for admin
-
-    - name: enable ssh for admin
+    - name: enable ssh for users debian and deploy
       authorized_key:
-        user: admin
+        user: "{{ item }}"
         key: https://github.com/koddo.keys
+      loop:
+        - debian
+        - deploy
 
-    - name: create the log file for fail2ban to watch
+    - name: git clone superlearn.it
+      git:
+        repo: https://github.com/koddo/superlearn.it
+        dest: /home/deploy/superlearn.it
+        update: no
       become: yes
-      become_user: admin
-      command: 'mkdir -p superlearn.it/nginx-logs-fail2ban && mkdir superlearn.secrets && chmod 700 superlearn.secrets && touch superlearn.it/nginx-logs-fail2ban/error.log'
-      args:
-        creates: superlearn.it/nginx-logs-fail2ban/error.log
+      become_user: deploy
 
-    - service:
-        name: fail2ban
-        state: started
+    - name: copy superlearn.secrets
+      become_user: deploy
+      become: yes
+      copy:
+        src: ../superlearn.secrets
+        dest: /home/deploy/
+        mode: 0600
+        directory_mode: 0700
+
+    - name: install packages
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        name:
+          - m4
+        state: latest
+
+    - name: build dockerfiles
+      become_user: deploy
+      become: yes
+      command: superlearn.it/dockerfiles/build_dockerfiles.sh
+      args:
+        creates: superlearn.it/dockerfiles/Dockerfile_*
+
+
+
+
+
+##############################################
+      
+    ## TODO: PermitRootLogin no and PasswordAuthentication no
+    # - name: disable ssh login for root
+    #   lineinfile:
+    #     dest: /etc/ssh/sshd_config
+    #     state: present
+    #     regexp: '^PermitRootLogin yes'
+    #     line: 'PermitRootLogin no'
+    
+
+
+    # - service:
+    #     name: fail2ban
+    #     state: started
 
     # - apt_repository:
     #     repo: deb http://ftp.debian.org/debian stretch-backports main
@@ -76,14 +117,20 @@
     #     state: latest
 
 
-## TODO: PermitRootLogin no and PasswordAuthentication no
-    # - name: disable ssh login for root
-    #   lineinfile:
-    #     dest: /etc/ssh/sshd_config
+    # - name: Make sure we have a 'wheel' group
+    #   group:
+    #     name: wheel
     #     state: present
-    #     regexp: '^PermitRootLogin yes'
-    #     line: 'PermitRootLogin no'
+
+    # - name: Allow 'wheel' group to have passwordless sudo
+    #   lineinfile:
+    #     dest: /etc/sudoers
+    #     state: present
+    #     regexp: '^%wheel'
+    #     line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    #     validate: 'visudo -cf %s'
 
 
 
             
+
