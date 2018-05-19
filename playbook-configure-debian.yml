@@ -1,0 +1,89 @@
+---
+- name: Install docker and some additional packages.
+  hosts: all
+  remote_user: root
+  # become: true
+
+  roles:
+    
+    - role: angstwad.docker_ubuntu
+      docker_group_members: ["admin"]
+      # kernel_update_and_reboot_permitted: yes
+      
+    - role: tersmitten.fail2ban      # https://galaxy.ansible.com/tersmitten/fail2ban/
+      fail2ban_services:
+        - name: basic-auth
+          port: 443
+          filter: nginx-http-auth
+          logpath: /home/admin/superlearn.it/nginx-logs-fail2ban/*.log
+          maxretry: 3
+          bantime: 60
+          chain: FORWARD
+          enabled: false       # we start it later, when the logpath actually exists
+          # the chain is INPUT by default, but it fails to ban access to docker containers: http://www.sk4.co.uk/blog/2017/08/docker-and-fail2ban
+          # I'm not sure it's the best way to do this, but it's the shortest path; we could use this: https://docs.docker.com/network/iptables/#add-iptables-policies-before-dockers-rules, http://blog.amigapallo.org/2016/04/14/configuring-fail2ban-and-iptables-to-get-along-with-docker/
+
+
+  tasks:
+    
+    - name: Make sure we have a 'wheel' group
+      group:
+        name: wheel
+        state: present
+
+    - name: Allow 'wheel' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: add the admin user
+      user:
+        name: admin
+        groups: wheel
+        append: yes
+        shell: /bin/bash
+      # notify:
+      #   - enable ssh for admin
+
+    - name: enable ssh for admin
+      authorized_key:
+        user: admin
+        key: https://github.com/koddo.keys
+
+    - name: create the log file for fail2ban to watch
+      become: yes
+      become_user: admin
+      command: 'mkdir -p superlearn.it/nginx-logs-fail2ban && mkdir superlearn.secrets && chmod 700 superlearn.secrets && touch superlearn.it/nginx-logs-fail2ban/error.log'
+      args:
+        creates: superlearn.it/nginx-logs-fail2ban/error.log
+
+    - service:
+        name: fail2ban
+        state: started
+
+    # - apt_repository:
+    #     repo: deb http://ftp.debian.org/debian stretch-backports main
+
+    # - apt:
+    #     update_cache: true
+    #     cache_valid_time: 3600
+    #     default_release: stretch-backports
+    #     name:
+    #       - python-certbot-nginx
+    #     state: latest
+
+
+## TODO: PermitRootLogin no and PasswordAuthentication no
+    # - name: disable ssh login for root
+    #   lineinfile:
+    #     dest: /etc/ssh/sshd_config
+    #     state: present
+    #     regexp: '^PermitRootLogin yes'
+    #     line: 'PermitRootLogin no'
+
+
+
+            
