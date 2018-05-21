@@ -65,7 +65,7 @@ services:
         - ./nginx/server.crt:/etc/nginx/server.crt:ro
         - ./nginx/server.key:/etc/nginx/server.key:ro
         - ../superlearn.secrets/htpasswd:/etc/apache2/.htpasswd:ro
-        - ./nginx-logs-fail2ban:/var/log/nginx
+        - ../superlearn.nginx-logs-fail2ban:/var/log/nginx
         # - ./client-web/resources/public:/var/www:ro
     logging:
       <<: *logging_anchor
