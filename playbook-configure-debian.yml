@@ -67,7 +67,7 @@
       copy:
         src: ../superlearn.secrets
         dest: /home/deploy/
-        mode: 0600
+        # mode: 0600
         directory_mode: 0700
 
     - name: install packages

@@ -59,7 +59,7 @@ services:
   nginx:
     image: koddo/nginx
     ports:
-        - "8443:8443"
+        - "443:8443"
     volumes:
         - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
         - ./nginx/server.crt:/etc/nginx/server.crt:ro
