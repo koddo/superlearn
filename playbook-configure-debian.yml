@@ -33,14 +33,19 @@
     - role: tersmitten.fail2ban      # https://galaxy.ansible.com/tersmitten/fail2ban/
       fail2ban_services:
         - name: basic-auth
-          port: 443
+          port: 8443
           filter: nginx-http-auth
           logpath: /home/deploy/superlearn.nginx-logs-fail2ban/*.log
           maxretry: 3
           bantime: 60
           chain: FORWARD
-          # the chain is INPUT by default, but it fails to ban access to docker containers: http://www.sk4.co.uk/blog/2017/08/docker-and-fail2ban
-          # I'm not sure it's the best way to do this, but it's the shortest path; we could use this: https://docs.docker.com/network/iptables/#add-iptables-policies-before-dockers-rules, http://blog.amigapallo.org/2016/04/14/configuring-fail2ban-and-iptables-to-get-along-with-docker/
+        - name: sshd      # watching this service is useless since PermitRootLogin is set to no, but we have this anyway, why not
+          port: 22
+          maxretry: 3
+          bantime: 60
+          chain: FORWARD
+      # the chain is INPUT by default, but it fails to ban access to docker containers: http://www.sk4.co.uk/blog/2017/08/docker-and-fail2ban
+      # I'm not sure it's the best way to do this, but it's the shortest path; we could use this: https://docs.docker.com/network/iptables/#add-iptables-policies-before-dockers-rules, http://blog.amigapallo.org/2016/04/14/configuring-fail2ban-and-iptables-to-get-along-with-docker/
 
 
   tasks:

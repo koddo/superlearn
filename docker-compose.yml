@@ -1,6 +1,6 @@
 ## project name is set in the .env file
 
-version: '2'
+version: '3'
 
 
 services:
@@ -62,9 +62,9 @@ services:
         - "8443:8443"
     volumes:
         - ./nginx/nginx-dev.conf:/etc/nginx/nginx.conf:ro
-        - ./nginx/server.crt:/etc/nginx/server.crt:ro
-        - ./nginx/server.key:/etc/nginx/server.key:ro
-        - ../superlearn.secrets/htpasswd:/etc/apache2/.htpasswd:ro
+        - ${SERVER_CRT}:/etc/nginx/server.crt:ro
+        - ${SERVER_KEY}:/etc/nginx/server.key:ro
+        - ../superlearn.secrets/htpasswd:/etc/apache2/.htpasswd:ro     # this file has 644 permissions, otherwise, nginx can't reach it, we should fix this someday, but right now it's a low risk thing, we just hide our pet project behind basic auth
         - ../superlearn.nginx-logs-fail2ban:/var/log/nginx
         # - ./client-web/resources/public:/var/www:ro
     logging:

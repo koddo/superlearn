@@ -3,9 +3,9 @@
 
 
 if [[ $1 == 'certonly' ]] ; then
-    mkdir -p ../superlearn.certbot/etc_letsencrypt && \
-        mkdir -p ../superlearn.certbot/var_lib_letsencrypt && \
-        mkdir -p ../superlearn.certbot/var_log_letsencrypt && \
+    mkdir -p ../superlearn.certbot/etc_letsencrypt \
+          ../superlearn.certbot/var_lib_letsencrypt \
+          ../superlearn.certbot/var_log_letsencrypt && \
         docker run -it --rm --name certbot \
                -v $(pwd)/../superlearn.certbot/etc_letsencrypt:/etc/letsencrypt \
                -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
