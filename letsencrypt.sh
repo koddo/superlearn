@@ -11,7 +11,7 @@ if [[ $1 == 'certonly' ]] ; then
                -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
                -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
                -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
-               certbot/dns-digitalocean certonly \
+               koddo/certbot-dns-digitalocean certonly \
                --dns-digitalocean \
                --dns-digitalocean-credentials /superlearn.secrets/certbot.digitalocean.ini \
                -d superlearn.org \
@@ -22,7 +22,7 @@ elif [[ $1 == 'renew' ]] ; then
                -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
                -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
                -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
-               certbot/dns-digitalocean renew
+               koddo/certbot-dns-digitalocean renew
         # renew --dry-run
 else
     echo "usage: $(basename $0) cetonly|renew"
@@ -43,7 +43,11 @@ fi
 
 
 
-
+# TODO: crontab
 # $ crontab -e
 # 0 12 * * * /usr/bin/certbot renew --quiet
+
+# TODO: right user and permissions for the certbot dir
+# sudo chown -R deploy:deploy superlearn.certbot
+
 
