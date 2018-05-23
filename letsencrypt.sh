@@ -48,6 +48,5 @@ fi
 # 0 12 * * * /usr/bin/certbot renew --quiet
 
 # TODO: right user and permissions for the certbot dir
-# sudo chown -R deploy:deploy superlearn.certbot
-
-
+# we now do $ sudo chown -R deploy:deploy superlearn.certbot
+# use koddo/certbot-dns-digitalocean

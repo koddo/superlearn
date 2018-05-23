@@ -10,7 +10,5 @@ WORKDIR /home/theuser
 ENV HOME /home/theuser
 USER theuser
 
-# we also had this, don't remember why: docker_gid=esyscmd(`getent group docker | cut -d: -f3')
-
 # --- end of add_theuser.in
 
