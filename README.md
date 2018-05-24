@@ -85,8 +85,8 @@ sudo tail -f /var/log/fail2ban.log
 
 # deploy
 
-- create a vm in digitaloceant
+- create a vm in digitalocean
 - ansible script
 - certbot script, add cron job
-- create a firewall in digitalocean to only expose ports 22 and 443
+- create a firewall in digitalocean to only expose ports 22 and 443, this is easier for now than fighting iptables+docker setup
 

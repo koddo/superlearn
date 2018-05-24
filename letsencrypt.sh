@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-
+# if the script inside container is run as root, it creates files owned by root on host system, and we can't access them later
+# so we run it as the host user
+UID=$(id -u)
+GID=$(id -g)
 
 if [[ $1 == 'certonly' ]] ; then
     mkdir -p ../superlearn.certbot/etc_letsencrypt \
           ../superlearn.certbot/var_lib_letsencrypt \
           ../superlearn.certbot/var_log_letsencrypt && \
         docker run -it --rm --name certbot \
+               --user=$UID:$GID \
                -v $(pwd)/../superlearn.certbot/etc_letsencrypt:/etc/letsencrypt \
                -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
                -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
                -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
-               koddo/certbot-dns-digitalocean certonly \
+               certbot/dns-digitalocean certonly \
                --dns-digitalocean \
                --dns-digitalocean-credentials /superlearn.secrets/certbot.digitalocean.ini \
                -d superlearn.org \
