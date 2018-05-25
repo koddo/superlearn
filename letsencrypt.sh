@@ -21,15 +21,16 @@ if [[ $1 == 'certonly' ]] ; then
                -d superlearn.org \
                -d www.superlearn.org
 elif [[ $1 == 'renew' ]] ; then
-        docker run -it --rm --name certbot \
-               -v $(pwd)/../superlearn.certbot/etc_letsencrypt:/etc/letsencrypt \
-               -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
-               -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
-               -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
-               certbot/dns-digitalocean renew
-        # renew --dry-run
+    docker run -it --rm --name certbot \
+           --user=$HOST_UID:$HOST_GID \
+           -v $(pwd)/../superlearn.certbot/etc_letsencrypt:/etc/letsencrypt \
+           -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
+           -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
+           -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
+           certbot/dns-digitalocean renew --quiet
+    # renew --dry-run
 else
-    echo "usage: $(basename $0) cetonly|renew"
+    echo "usage: $(basename $0) cetonly | renew"
 fi
 
 
