@@ -90,3 +90,8 @@ sudo tail -f /var/log/fail2ban.log
 - certbot script, add cron job
 - create a firewall in digitalocean to only expose ports 22 and 443, this is easier for now than fighting iptables+docker setup
 
+```
+SERVER_CRT=../superlearn.certbot/etc_letsencrypt/live/superlearn.org/fullchain.pem \
+    SERVER_KEY=../superlearn.certbot/etc_letsencrypt/live/superlearn.org/privkey.pem \
+    docker-compose up -d
+```
