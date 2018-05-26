@@ -18,8 +18,8 @@ if [[ $1 == 'certonly' ]] ; then
                certbot/dns-digitalocean certonly \
                --dns-digitalocean \
                --dns-digitalocean-credentials /superlearn.secrets/certbot.digitalocean.ini \
-               -d superlearn.org \
-               -d www.superlearn.org
+               -d superlearn.it \
+               -d www.superlearn.it
 elif [[ $1 == 'renew' ]] ; then
     docker run -it --rm --name certbot \
            --user=$HOST_UID:$HOST_GID \
