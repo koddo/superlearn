@@ -14,3 +14,9 @@ RUN apt-get update && apt-get install -y \
             tcpdump && \
     apt-get -y autoclean && apt-get -y autoremove
 ```
+
+
+# TLS certs
+
+Those lying here are self-signed for local dev env.
+
