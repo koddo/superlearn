@@ -11,4 +11,5 @@ logs
 *.d
 
 # it's shadowed by client-web's resources
-priv
+# /priv
+# was shadowed
