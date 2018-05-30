@@ -60,7 +60,8 @@ $ docker-compose up -d
 
 ```
 $ docker-compose stop database
-$ docker volume rm superlearn_pgdata
+$ docker rm database
+$ docker volume rm database superlearn_pgdata
 $ docker volume create --name=superlearn_pgdata
 $ ./database-restore.sh superlearn--2018-01-25--13-21-27--pgdata.tgz
 $ docker-compose up -d

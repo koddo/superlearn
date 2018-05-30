@@ -16,7 +16,11 @@ RUN apt-get update && apt-get install -y \
 ```
 
 
+TODO: redirect from http to https
+TODO: redirect from non-www to www
+
 # TLS certs
 
 Those lying here are self-signed for local dev env.
+
 
