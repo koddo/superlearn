@@ -37,7 +37,7 @@
         <p><a href="/ht/edit/{{ c.card_id }}">edit</a></p>
         <p><a href="/ht/cards">cards</a></p>
         
-        <!-- <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script> -->
+        <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
         <script src="/js/marked.js"></script>
         <script>
          function decodeEntities(encodedString) {
