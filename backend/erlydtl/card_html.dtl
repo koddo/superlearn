@@ -44,7 +44,8 @@
          MathJax.Hub.Config({ TeX: { extensions: ["color.js"] },
                               tex2jax: {
                                   inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-                                  displayMath: [ ['$$','$$'], ['\[','\]'] ]
+                                  displayMath: [ ['$$','$$'], ['\[','\]'] ],
+                                  processClass: "markdown"
                               },
                               showProcessingMessages: false });
         </script>
