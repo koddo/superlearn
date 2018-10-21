@@ -45,6 +45,7 @@
                               tex2jax: {
                                   inlineMath: [ ['$','$'], ['\\(','\\)'] ],
                                   displayMath: [ ['$$','$$'], ['\[','\]'] ],
+                                  ignoreClass: ".*",
                                   processClass: "markdown"
                               },
                               showProcessingMessages: false });
