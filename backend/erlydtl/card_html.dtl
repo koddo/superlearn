@@ -39,6 +39,19 @@
         
         <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
         <!-- <script src="/js/marked.js"></script> -->
+        
+        <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({ TeX: { extensions: ["color.js"] },
+                              tex2jax: {
+                                  inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+                                  displayMath: [ ['$$','$$'], ['\[','\]'] ]
+                              },
+                              showProcessingMessages: false });
+        </script>
+        <script type="text/javascript" async
+                src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        
         <script>
          function decodeEntities(encodedString) {
              var textArea = document.createElement('textarea');
@@ -47,7 +60,7 @@
          }
          var list = document.getElementsByClassName("markdown");
          for (var i = 0; i < list.length; i++) {
-             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: false});
+             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: true});
          }
         </script>
     </body>
