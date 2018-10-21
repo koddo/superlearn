@@ -47,7 +47,7 @@
          }
          var list = document.getElementsByClassName("markdown");
          for (var i = 0; i < list.length; i++) {
-             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: true});
+             list[i].innerHTML = marked(decodeEntities(list[i].innerHTML), {sanitize: false});
          }
         </script>
     </body>
