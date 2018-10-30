@@ -27,7 +27,7 @@ elif [[ $1 == 'renew' ]] ; then
            -v $(pwd)/../superlearn.certbot/var_lib_letsencrypt:/var/lib/letsencrypt \
            -v $(pwd)/../superlearn.certbot/var_log_letsencrypt:/var/log/letsencrypt \
            -v $(pwd)/../superlearn.secrets/certbot.digitalocean.ini:/superlearn.secrets/certbot.digitalocean.ini:ro \
-           certbot/dns-digitalocean renew --quiet
+           certbot/dns-digitalocean renew   # --quiet
     # renew --dry-run
 else
     echo "usage: $(basename $0) cetonly | renew"
