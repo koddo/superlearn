@@ -99,11 +99,27 @@ SERVER_CRT=../superlearn.certbot/etc_letsencrypt/live/superlearn.it/fullchain.pe
     docker-compose up -d
 ```
 
+
 # communication with hidden iframe
 
 <https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage>
 
 <https://www.dyn-web.com/tutorials/iframes/postmessage/demo.php> -- server was down last time I checked it.
+
+
+
+# sort
+
+Motivation text: I forget there's no `s.trim()` in python, it's called `s.strip()`. I forget `s.strip(',')` has slightly different logic than `s.strip()`. Man, I forget all the time `throw` in python is called `raise`.
+
+
+
+
+
+
+
+
+
 
 
 
