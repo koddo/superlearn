@@ -98,3 +98,9 @@ SERVER_CRT=../superlearn.certbot/etc_letsencrypt/live/superlearn.it/fullchain.pe
     HTTPS_PORT=443
     docker-compose up -d
 ```
+
+
+# sort
+
+Motivation text: I forget there's no `s.trim()` in python, it's called `s.strip()`. I forget `s.strip(',')` has slightly different logic than `s.strip()`. Man, I forget all the time `throw` in python is called `raise`.
+
