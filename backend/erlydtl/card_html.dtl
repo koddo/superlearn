@@ -39,7 +39,13 @@
         
         <script src="https://cdn.rawgit.com/Feder1co5oave/marktex/production/lib/marked.js"></script>
         <!-- <script src="/js/marked.js"></script> -->
-        
+        <script>
+          marked.setOptions({
+              gfm:        true,
+              breaks:     true
+          });
+        </script>
+
         <script type="text/x-mathjax-config">
          MathJax.Hub.Config({ TeX: { extensions: ["color.js"] },
                               tex2jax: {
