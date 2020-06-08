@@ -21,6 +21,8 @@ TODO: SECURITY make sure iframe-resizer is safe, can't be used for xss and csrf
 TODO: SECURITY make sure marked.js is safe: <https://ponyfoo.com/articles/fixing-xss-vulnerability-marked>, <https://snyk.io/blog/marked-xss-vulnerability/>
 TODO: <https://serverfault.com/questions/627169/how-to-secure-an-open-postgresql-port>
 
+TODO: https://www.cybertec-postgresql.com/en/abusing-security-definer-functions/
+
 # fsevents
 
 <https://facebook.github.io/watchman/>
